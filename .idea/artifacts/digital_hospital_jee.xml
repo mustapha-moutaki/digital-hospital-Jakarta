@@ -1,0 +1,6 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="digital-hospital-jee">
+    <output-path>$PROJECT_DIR$/out/artifacts/digital_hospital_jee</output-path>
+    <root id="root" />
+  </artifact>
+</component>
