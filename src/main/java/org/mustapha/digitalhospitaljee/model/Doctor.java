@@ -4,15 +4,14 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "doctors")
-
 public class Doctor {
-    @Id
-    private Long id;
-            @GeneratedValue(strategy=GenerationType.IDENTITY)
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
+        private int age;
         private String name;
-        private String specialty;
         public Doctor(){}
-        public Doctor(String name, String specialty){
+        public Doctor(int age, String name){
         }
 
 
@@ -21,23 +20,20 @@ public class Doctor {
                 return id;
             }
 
-            public void setId(Long id) {
-                this.id = id;
-            }
 
-            public String getName() {
-                return name;
+            public int getAge() {
+                return age;
             }
 
             public void setName(String name) {
                 this.name = name;
             }
 
-            public String getSpecialty() {
-                return specialty;
+            public String getName() {
+                return name;
             }
 
-            public void setSpecialty(String specialty) {
-                this.specialty = specialty;
+            public void setAge(int age) {
+                this.age = age;
             }
         }

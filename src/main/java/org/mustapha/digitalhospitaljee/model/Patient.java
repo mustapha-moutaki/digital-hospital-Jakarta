@@ -5,16 +5,13 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "patients")
 public class Patient {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
     private int age;
 
     public Patient() {}
-
     public Patient(String name, int age) {
         this.name = name;
         this.age = age;

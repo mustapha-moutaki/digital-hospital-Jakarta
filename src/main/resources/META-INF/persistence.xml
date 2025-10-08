@@ -15,7 +15,7 @@
             <property name="jakarta.persistence.jdbc.password" value="usr"/>
 
 
-            <!--            menttion the name of the database + database username and password-->
+            <!--            mention the name of the database + database username and password-->
 
 <!--            hibernate settings-->
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
