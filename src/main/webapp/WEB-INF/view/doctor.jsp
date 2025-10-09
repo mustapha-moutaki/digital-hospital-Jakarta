@@ -16,7 +16,7 @@
 </h1>
 <form method="post" action="${pageContext.request.contextPath}/doctors">
     <label>enter age</label>
-    <input type="number" age="age" />
+    <input type="text" name="age" />
     <label>enter name</label>
     <input type="text" name="name" />
     <button type="submit">Create Doctor</button>

@@ -1,4 +1,9 @@
-package org.mustapha.digitalhospitaljee.Util;
+/**
+ * This class help the JPA  to create-createAndDrop-update tables of entities each time the project runs
+ * note: in jpa the tables doesn't create intel the data is inserted
+ */
+
+package org.mustapha.digitalhospitaljee.Config;
 
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
@@ -7,7 +12,7 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
 @WebListener
-public class JpaInitializer implements ServletContextListener {
+public class JPAinitializer implements ServletContextListener {
 
     private static EntityManagerFactory entityManagerFactory;
 

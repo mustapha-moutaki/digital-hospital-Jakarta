@@ -75,6 +75,23 @@
             <version>2.0.0</version>
         </dependency>
 
+<!--        for inputs validation and display errors-->
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+
+        <!-- Hibernate Validator (implementation) -->
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>7.0.1.Final</version>
+        </dependency>
+
+
+
+
         <!--  My dependencies   -->
 
     </dependencies>

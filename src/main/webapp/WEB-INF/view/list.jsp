@@ -14,7 +14,7 @@
     <title>Patients List</title>
 </head>
 <body>
-<h1>List of Patients</h1>
+<h1>List of Patients </h1>
 <table border="1">
     <tr>
         <th>ID</th>

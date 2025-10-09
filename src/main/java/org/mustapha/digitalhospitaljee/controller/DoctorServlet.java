@@ -1,24 +1,30 @@
-package org.mustapha.digitalhospitaljee.servlet;
+/**
+ * The controller or Servlet it the class that is responsible to get data from the front to db and verse virsa
+ *  note: doGet when is methode of request is get-like get that page
+ *  note : doPost when is the methode or request is post -like from of info
+ */
 
-import jakarta.servlet.ServletConfig;
+
+package org.mustapha.digitalhospitaljee.controller;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.mustapha.digitalhospitaljee.model.Doctor;
-import org.mustapha.digitalhospitaljee.service.DoctorService;
+import org.mustapha.digitalhospitaljee.service.impl.DoctorServiceImpl;
 
 import java.io.IOException;
 
 @WebServlet("/doctors")
 public class DoctorServlet extends HttpServlet {
-    private DoctorService doctorService;
+    private DoctorServiceImpl doctorService;
 
     @Override
     public void init() throws ServletException {
         try {
-            doctorService = new DoctorService();
+            doctorService = new DoctorServiceImpl();
         } catch (Exception e) {
             e.printStackTrace();
             throw new ServletException("error in level of init methode", e);
@@ -26,14 +32,14 @@ public class DoctorServlet extends HttpServlet {
     }
 
 
-    // 🔵 Handle GET (for testing or form view)
+    //  Handle GET (for testing or form view)
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("/WEB-INF/view/doctor.jsp").forward(req, resp);
 
     }
 
-    // 🟢 Handle POST (form submission)
+    // Handle POST (form submission)
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String ageParam = req.getParameter("age");
@@ -42,6 +48,7 @@ public class DoctorServlet extends HttpServlet {
         if (ageParam != null && !ageParam.trim().isEmpty()) {
             try {
                 age = Integer.parseInt(ageParam);
+                
             } catch (NumberFormatException e) {
                 age = 0;
             }
@@ -50,13 +57,13 @@ public class DoctorServlet extends HttpServlet {
         doctor.setAge(age);
         doctor.setName(name);
 
-        doctorService.createDocotr(doctor);
+        doctorService.createDoctor(doctor);
         req.getRequestDispatcher("/WEB-INF/view/success.jsp").forward(req, resp);
     }
 
-    @Override
-    public void destroy() {
-        doctorService.close();
-    }
+//    @Override
+//    public void destroy() {
+//        doctorService.close();
+//    }
 }
 

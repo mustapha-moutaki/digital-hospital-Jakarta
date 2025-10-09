@@ -1,11 +1,5 @@
 package org.mustapha.digitalhospitaljee;
 //
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
-import org.mustapha.digitalhospitaljee.model.Doctor;
-import org.mustapha.digitalhospitaljee.model.Patient;
-import org.mustapha.digitalhospitaljee.service.DoctorService;
 //
 //public class Main {
 //    public static void main(String[] args) {

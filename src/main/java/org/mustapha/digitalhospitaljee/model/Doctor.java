@@ -3,37 +3,30 @@ package org.mustapha.digitalhospitaljee.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "doctors")
-public class Doctor {
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long id;
-        private int age;
-        private String name;
-        public Doctor(){}
-        public Doctor(int age, String name){
-        }
+@PrimaryKeyJoinColumn(name = "person_id")
+@Table(name = "doctors") // table that we want to be created in the database
+public class Doctor extends Person{
+
+    private String specialist;
+
+    @ManyToOne
+    @JoinColumn(name = "department_id", nullable = false)
+    private Department department;
+    private List<Planning> planningList;
+
+    public Doctor() {}
+
+    public Doctor(String firstName, String lastname, String email, String password, String specialist, String department, List<Planning> planningList) {
+            super(firstName, lastname, email, password);
+        this.specialist = specialist;
+        this.department = department;
+        this.planningList = planningList;
+    }
 
 
 
-    public Long getId() {
-                return id;
-            }
-
-
-            public int getAge() {
-                return age;
-            }
-
-            public void setName(String name) {
-                this.name = name;
-            }
-
-            public String getName() {
-                return name;
-            }
-
-            public void setAge(int age) {
-                this.age = age;
-            }
-        }
+    @Override
+    public String getRole() {
+        return "Doctor";
+    }
+}

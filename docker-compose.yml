@@ -24,6 +24,10 @@ services:
       - mysql
 #    volumes:
 #      - ./target/hospital-sys.war:/usr/local/tomcat/webapps/ROOT.war
+    volumes:
+      - ./target/digital-hospital-jee-1.0-SNAPSHOT.war:/usr/local/tomcat/webapps/digital-hospital-jee.war
+      - ./target/hospital-sys.war:/usr/local/tomcat/webapps/hospital-sys.war
+
     networks:
       - my_network
 
