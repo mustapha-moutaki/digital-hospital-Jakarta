@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import org.mustapha.digitalhospitaljee.model.enums.ConsultationStatus;
 
+import javax.print.Doc;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -24,16 +25,74 @@ public class Consultation {
 
     @ManyToOne
     @JoinColumn(name = "patient_id", nullable = false)
-    Patient patient;
+    private Patient patient;
+
+    @ManyToOne
+    @JoinColumn(name = "doctor_id", nullable = false)
+    private Doctor doctor;
+
+    private String report;
 
     public Consultation(){}
 
-    public Consultation(Patient patient, ConsultationStatus consultationStatus, LocalDateTime dateTime) {
+    public Consultation(Patient patient, ConsultationStatus consultationStatus, LocalDateTime dateTime, String report) {
         this.patient = patient;
         this.consultationStatus = consultationStatus;
         this.dateTime = dateTime;
+        this.report = report;
     }
 
 
+    /**
+     * Getters and Setters
+     */
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public ConsultationStatus getConsultationStatus() {
+        return consultationStatus;
+    }
+
+    public void setConsultationStatus(ConsultationStatus consultationStatus) {
+        this.consultationStatus = consultationStatus;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
+
+    public void setReport(String report){
+        this.report = report;
+    }
+    public String getReport(){
+        return this.report;
+    }
+
+    @Override
+    public String toString() {
+        return "Consultation{" +
+                "id=" + id +
+                ", dateTime=" + dateTime +
+                ", consultationStatus=" + consultationStatus +
+                ", patient=" + patient +
+                ", report='" + report + '\'' +
+                '}';
+    }
 }

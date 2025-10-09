@@ -54,7 +54,7 @@ public class DoctorRepositoryImpl implements DoctorRepository {
             if (doctor != null) {
                 em.remove(doctor);
                 tx.commit();
-                System.out.println("Doctor " + doctor.getName() + " removed successfully");
+                System.out.println("Doctor " + doctor.getFirstName() + " removed successfully");
             } else {
                 System.out.println("Doctor not found with id " + id);
                 tx.rollback();

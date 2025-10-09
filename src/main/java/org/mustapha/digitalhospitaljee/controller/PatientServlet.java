@@ -23,8 +23,8 @@ public class PatientServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         patientService = new PatientServiceImpl();
-        Patient testPatient = new Patient("John Doe", 30);// create patient for test
-        patientService.savePatient(testPatient);// save the patient in db
+//        Patient testPatient = new Patient("John Doe", 30);// create patient for test
+//        patientService.savePatient(testPatient);// save the patient in db
     }
 
     @Override

@@ -5,6 +5,12 @@
 
         <class>org.mustapha.digitalhospitaljee.model.Patient</class>
         <class>org.mustapha.digitalhospitaljee.model.Doctor</class>
+
+        <class>org.mustapha.digitalhospitaljee.model.Person</class>
+        <class>org.mustapha.digitalhospitaljee.model.Admin</class>
+        <class>org.mustapha.digitalhospitaljee.model.Consultation</class>
+        <class>org.mustapha.digitalhospitaljee.model.Department</class>
+        <class>org.mustapha.digitalhospitaljee.model.Room</class>
         <!--        we will add objects here later-->
 
         <properties>
@@ -19,7 +25,7 @@
 
 <!--            hibernate settings-->
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
-            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
 
             <property name="hibernate.show_sql" value="true"/>
         </properties>

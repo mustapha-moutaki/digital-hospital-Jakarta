@@ -53,11 +53,11 @@ public class DoctorServlet extends HttpServlet {
                 age = 0;
             }
         }
-        Doctor doctor = new Doctor();
-        doctor.setAge(age);
-        doctor.setName(name);
-
-        doctorService.createDoctor(doctor);
+//        Doctor doctor = new Doctor();
+//        doctor.setAge(age);
+//        doctor.setName(name);
+        System.out.println("<h1>there is updating here</h1>");
+//        doctorService.createDoctor(doctor);
         req.getRequestDispatcher("/WEB-INF/view/success.jsp").forward(req, resp);
     }
 

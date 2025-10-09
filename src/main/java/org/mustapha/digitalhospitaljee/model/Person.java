@@ -32,8 +32,6 @@ public abstract class Person {
     @Column(nullable = false)
     protected String password;
 
-    @OneToMany(mappedBy = "person")
-    List<Consultation> consultationList;
 
     public Person(){
 
