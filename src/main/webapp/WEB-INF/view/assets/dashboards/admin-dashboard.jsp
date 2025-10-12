@@ -1,16 +1,31 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: mustapha
-  Date: 10/8/25
-  Time: 3:56 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Title</title>
-</head>
-<body>
+<%@ include file="../components/header.jsp" %>
 
-</body>
-</html>
+
+<div class="container">
+    <h1>Welcome to Admin Dashboard</h1>
+
+    <div class="cards">
+        <div class="card">
+            <h2>Manage Doctors</h2>
+            <a href="<%= request.getContextPath() %>/doctors?action=list">Go</a>
+        </div>
+
+        <div class="card">
+            <h2>Manage Patients</h2>
+            <a href="<%= request.getContextPath() %>/patients?action=list">Go</a>
+        </div>
+
+        <div class="card">
+            <h2>Manage Departments</h2>
+            <a href="<%= request.getContextPath() %>/departments?action=list">Go</a>
+        </div>
+
+        <div class="card">
+            <h2>Manage Rooms</h2>
+            <a href="<%= request.getContextPath() %>/rooms?action=list">Go</a>
+        </div>
+    </div>
+</div>
+
+<%@ include file="../assets/components/footer.jsp" %>
