@@ -9,33 +9,30 @@ package org.mustapha.digitalhospitaljee.controller;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.WebServlet;
+import org.mustapha.digitalhospitaljee.Repository.PatientRepository;
+import org.mustapha.digitalhospitaljee.Repository.impl.PatientRepositoryImpl;
 import org.mustapha.digitalhospitaljee.model.Patient;
+import org.mustapha.digitalhospitaljee.service.PatientService;
 import org.mustapha.digitalhospitaljee.service.impl.PatientServiceImpl;
 
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/patients") // this is the url path
+@WebServlet("/patient/dashboard") // this is the url path
 public class PatientServlet extends HttpServlet {
 
-    private PatientServiceImpl patientService;
+    private PatientRepository patientRepository;
 
     @Override
     public void init() throws ServletException {
-        patientService = new PatientServiceImpl();
-//        Patient testPatient = new Patient("John Doe", 30);// create patient for test
-//        patientService.savePatient(testPatient);// save the patient in db
+        patientRepository = new PatientRepositoryImpl();
+        PatientService patientService = new PatientServiceImpl(patientRepository);
     }
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Patient> patients = patientService.getAllPatients();
-        req.setAttribute("patients", patients);
-        req.getRequestDispatcher("/WEB-INF/view/list.jsp").forward(req, resp);
+
     }
 
-    @Override
-    public void destroy() {
-        patientService.close();
-    }
+
+
 }

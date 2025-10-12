@@ -2,7 +2,6 @@ package org.mustapha.digitalhospitaljee.service.impl;
 
 import org.mustapha.digitalhospitaljee.Exceptions.BusinessException;
 import org.mustapha.digitalhospitaljee.Repository.DoctorRepository;
-import org.mustapha.digitalhospitaljee.Repository.impl.DoctorRepositoryImpl;
 import org.mustapha.digitalhospitaljee.model.Doctor;
 import org.mustapha.digitalhospitaljee.service.DoctorService;
 import org.mustapha.digitalhospitaljee.validation.DoctorValidator;
@@ -11,7 +10,11 @@ import java.util.List;
 
 public class DoctorServiceImpl implements DoctorService {
 
-    private final DoctorRepository doctorRepository = new DoctorRepositoryImpl();
+    private final DoctorRepository doctorRepository;
+
+    public DoctorServiceImpl(DoctorRepository repo) {
+        this.doctorRepository = repo;
+    }
 
     @Override
     public void createDoctor(Doctor doctor) {

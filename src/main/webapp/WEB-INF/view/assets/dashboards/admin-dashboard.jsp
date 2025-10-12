@@ -1,31 +1,130 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ include file="../components/header.jsp" %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Clinic</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f6fa;
+            height: 100vh;
+        }
 
-<div class="container">
-    <h1>Welcome to Admin Dashboard</h1>
+        /* Main Content Styles */
+        .main-content {
+            margin-left: 250px;
+            margin-top: 75px;
+            padding: 30px;
+            min-height: calc(100vh - 195px);
+        }
 
-    <div class="cards">
-        <div class="card">
-            <h2>Manage Doctors</h2>
-            <a href="<%= request.getContextPath() %>/doctors?action=list">Go</a>
-        </div>
+        /* Sidebar Styles */
+        .sidebar {
+            width: 250px;
+            height: 90vh;
+            background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
+            position: fixed;
+            left: 0;
+            top: 0;
+            color: white;
+            padding: 20px 0;
+            margin-top: 40px;
+        }
 
-        <div class="card">
-            <h2>Manage Patients</h2>
-            <a href="<%= request.getContextPath() %>/patients?action=list">Go</a>
-        </div>
+        .sidebar-section {
+            padding: 15px 20px;
+            color: #95a5a6;
+            font-size: 0.85rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
 
-        <div class="card">
-            <h2>Manage Departments</h2>
-            <a href="<%= request.getContextPath() %>/departments?action=list">Go</a>
-        </div>
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0 10px;
+        }
 
-        <div class="card">
-            <h2>Manage Rooms</h2>
-            <a href="<%= request.getContextPath() %>/rooms?action=list">Go</a>
-        </div>
+        .sidebar-menu li {
+            margin: 5px 0;
+        }
+
+        .sidebar-menu a {
+            display: block;
+            padding: 12px 15px;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .sidebar-menu a:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .sidebar-footer {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            padding: 0 20px;
+        }
+
+        .sidebar-footer a {
+            display: block;
+            padding: 12px;
+            background: #e74c3c;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                margin-left: 0;
+                margin-top: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<jsp:include page="../components/header.jsp" />
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <div class="sidebar-section">Main Menu</div>
+    <ul class="sidebar-menu">
+        <li><a href="/admin/dashboard">Dashboard</a></li>
+        <li><a href="/doctors">Manage Doctors</a></li>
+        <li><a href="/patients">Manage Patients</a></li>
+        <li><a href="/departments">Manage Departments</a></li>
+        <li><a href="/departments">Manage Rooms</a></li>
+    </ul>
+
+    <div class="sidebar-footer">
+        <a href="#">Logout</a>
     </div>
 </div>
 
-<%@ include file="../assets/components/footer.jsp" %>
+<!-- Main Content Area -->
+<main class="main-content">
+    <h2>Welcome to Admin Dashboard</h2>
+    <p>Here you can manage doctors, patients, and departments.</p>
+</main>
+
+<!-- Footer -->
+<jsp:include page="../components/footer.jsp" />
+
+</body>
+</html>
