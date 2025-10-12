@@ -1,42 +1,76 @@
 package org.mustapha.digitalhospitaljee.service.impl;
 
-import jakarta.persistence.*;
+import org.mustapha.digitalhospitaljee.Exceptions.BusinessException;
+import org.mustapha.digitalhospitaljee.Repository.PatientRepository;
 import org.mustapha.digitalhospitaljee.model.Patient;
 import org.mustapha.digitalhospitaljee.service.PatientService;
+import org.mustapha.digitalhospitaljee.validation.PatientValidator;
 
 import java.util.List;
 
 public class PatientServiceImpl implements PatientService {
 
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("hospitalPU");
-   
+    private final PatientRepository patientRepository;
+
+    public PatientServiceImpl(PatientRepository patientRepository) {
+        this.patientRepository = patientRepository;
+    }
+
+
+    @Override
+    public void craete(Patient patient) {
+        PatientValidator.validatePatient(patient);
+        patientRepository.createPatient(patient);
+    }
+
+
+    @Override
+    public void update(Patient patient) {
+        if (patient == null || patient.getId() == null) {
+            throw new BusinessException("Patient or patient ID cannot be null for update");
+        }
+
+        PatientValidator.validatePatient(patient);
+        patientRepository.update(patient);
+    }
+
+
+    @Override
+    public void delete(Long id) {
+        if (id == null || id <= 0) {
+            throw new BusinessException("Invalid patient ID for deletion");
+        }
+
+        Patient existing = patientRepository.findById(id);
+        if (existing == null) {
+            throw new BusinessException("Patient with ID " + id + " not found");
+        }
+
+        patientRepository.delete(id);
+    }
+
+    @Override
+    public Patient findById(Long id) {
+        if (id == null || id <= 0) {
+            throw new BusinessException("Invalid patient ID");
+        }
+
+        Patient patient = patientRepository.findById(id);
+        if (patient == null) {
+            throw new BusinessException("Patient not found with ID: " + id);
+        }
+
+        return patient;
+    }
+
+    @Override
     public List<Patient> getAllPatients() {
-        EntityManager em = emf.createEntityManager();
-        try {
-            return em.createQuery("SELECT p FROM Patient p", Patient.class).getResultList();
-        } finally {
-            em.close();
+        List<Patient> patients = patientRepository.findAll();
+        if (patients == null || patients.isEmpty()) {
+            throw new BusinessException("No patients found in the database");
         }
+        return patients;
     }
 
-    public void savePatient(Patient patient) {
-        EntityManager em = emf.createEntityManager();
-        EntityTransaction tx = em.getTransaction();
-        try {
-            tx.begin();
-            em.persist(patient);
-            tx.commit();
-        } catch (Exception e) {
-            if (tx.isActive()) tx.rollback();
-            e.printStackTrace();
-        } finally {
-            em.close();
-        }
-    }
 
-    public void close() {
-        if (emf.isOpen()) {
-            emf.close();
-        }
-    }
 }

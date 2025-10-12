@@ -5,6 +5,9 @@ import org.mustapha.digitalhospitaljee.model.Patient;
 import java.util.List;
 
 public interface PatientService {
-    void savePatient(Patient patient);
+    void craete(Patient patient);
+    void update(Patient patient);
+    void delete(Long id);
+    Patient findById(Long id);
     List<Patient> getAllPatients();
 }

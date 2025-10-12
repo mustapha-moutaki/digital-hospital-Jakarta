@@ -64,6 +64,14 @@ public class Room {
         return isAvailable;
     }
 
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
     @Override
     public String toString() {
         return "Room{" +

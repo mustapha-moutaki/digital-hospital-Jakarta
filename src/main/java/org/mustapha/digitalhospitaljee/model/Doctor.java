@@ -26,7 +26,29 @@ public class Doctor extends Person{
         this.consultationList = consultationList;
     }
 
+    public String getSpecialist() {
+        return specialist;
+    }
 
+    public void setSpecialist(String specialist) {
+        this.specialist = specialist;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
+    public List<Consultation> getConsultationList() {
+        return consultationList;
+    }
+
+    public void setConsultationList(List<Consultation> consultationList) {
+        this.consultationList = consultationList;
+    }
 
     @Override
     public String getRole() {

@@ -1,6 +1,7 @@
 package org.mustapha.digitalhospitaljee.Repository.impl;
 
 import jakarta.persistence.*;
+import org.mustapha.digitalhospitaljee.Exceptions.DoctorException;
 import org.mustapha.digitalhospitaljee.Repository.DoctorRepository;
 import org.mustapha.digitalhospitaljee.model.Doctor;
 import org.mustapha.digitalhospitaljee.service.DoctorService;
@@ -9,107 +10,75 @@ import java.util.List;
 
 public class DoctorRepositoryImpl implements DoctorRepository {
 
-    private EntityManagerFactory emf;
+    private final EntityManagerFactory emf;
 
     public DoctorRepositoryImpl() {
         emf = Persistence.createEntityManagerFactory("hospitalPU");
     }
 
     @Override
-    public void createDoctor(Doctor doctor) {
-        if (doctor == null) {
-            System.out.println("Failed adding doctor: doctor is null");
-            return;
-        }
-
+    public void createDoctor(Doctor doctor) throws DoctorException {
         EntityManager em = emf.createEntityManager();
-        EntityTransaction tx = em.getTransaction();
-
-        try {
+        try (em) {
+            EntityTransaction tx = em.getTransaction();
             tx.begin();
             em.persist(doctor);
             tx.commit();
         } catch (RuntimeException e) {
-            if (tx.isActive()) tx.rollback();
-            System.out.println("Error creating doctor");
-            e.printStackTrace();
-        } finally {
-            em.close();
+            throw new DoctorException("failed to create doctor" + e);
         }
     }
 
     @Override
-    public void delete(Long id) {
-        if (id == null || id <= 0) {
-            System.out.println("Failed to remove doctor: invalid id");
-            return;
-        }
-
+    public void delete(Long id) throws DoctorException {
         EntityManager em = emf.createEntityManager();
-        EntityTransaction tx = em.getTransaction();
 
-        try {
+        try (em) {
+            EntityTransaction tx = em.getTransaction();
             tx.begin();
             Doctor doctor = em.find(Doctor.class, id);
             if (doctor != null) {
                 em.remove(doctor);
                 tx.commit();
-                System.out.println("Doctor " + doctor.getFirstName() + " removed successfully");
-            } else {
-                System.out.println("Doctor not found with id " + id);
-                tx.rollback();
             }
         } catch (RuntimeException e) {
-            if (tx.isActive()) tx.rollback();
-            throw e;
-        } finally {
-            em.close();
+           throw new DoctorException("failed to delete doctor"+e);
         }
     }
 
     @Override
-    public void update(Doctor doctor) {
-        if (doctor == null) {
-            System.out.println("Failed to update doctor info: doctor is null");
-            return;
-        }
-
+    public void update(Doctor doctor) throws DoctorException{
         EntityManager em = emf.createEntityManager();
-        EntityTransaction tx = em.getTransaction();
 
-        try {
+        try (em) {
+            EntityTransaction tx = em.getTransaction();
             tx.begin();
             em.merge(doctor);
             tx.commit();
         } catch (RuntimeException e) {
-            if (tx.isActive()) tx.rollback();
-            throw e;
-        } finally {
-            em.close();
+            throw new DoctorException("failed update the doctor "+e);
         }
     }
 
     @Override
-    public List<Doctor> findAll() {
-        EntityManager em = emf.createEntityManager();
-        try {
+    public List<Doctor> findAll() throws DoctorException{
+        try (EntityManager em = emf.createEntityManager()) {
             return em.createQuery("SELECT d FROM Doctor d", Doctor.class).getResultList();
-        } finally {
-            em.close();
+        } catch (RuntimeException e) {
+            throw new DoctorException("failed to get doctors list" +e);
         }
     }
 
     @Override
-    public Doctor findById(Long id) {
-        EntityManager em = emf.createEntityManager();
-        try {
+    public Doctor findById(Long id) throws DoctorException{
+        try (EntityManager em = emf.createEntityManager()) {
             return em.find(Doctor.class, id);
-        } finally {
-            em.close();
+        } catch (RuntimeException e) {
+            throw new DoctorException("Failed to find doctor"+e);
         }
     }
 
-    public void close() {
+    public void closeFactory() {
         if (emf.isOpen()) {
             emf.close();
         }

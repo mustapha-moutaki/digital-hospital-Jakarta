@@ -2,10 +2,10 @@ package org.mustapha.digitalhospitaljee.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.mustapha.digitalhospitaljee.model.enums.ConsultationStatus;
 
 import javax.print.Doc;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -19,8 +19,9 @@ public class Consultation {
     @Column(nullable = false)
     private LocalDateTime dateTime;
 
-    @NotBlank(message = "consultation is required")
-    @Column(nullable = false)
+    @NotNull(message = "Consultation status is required")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "consultation_status", nullable = false)
     ConsultationStatus consultationStatus;
 
     @ManyToOne

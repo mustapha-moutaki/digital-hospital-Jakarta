@@ -5,8 +5,6 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-import java.util.List;
-
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name ="users")
@@ -33,10 +31,9 @@ public abstract class Person {
     protected String password;
 
 
-    public Person(){
-
+    protected Person(){
     }
-    public Person(String firstName, String lastname, String email, String password){
+    protected Person(String firstName, String lastname, String email, String password){
         this.firstName = firstName;
         this.lastname =  lastname;
         this.email = email;

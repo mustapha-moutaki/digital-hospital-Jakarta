@@ -9,4 +9,5 @@ public interface DoctorService {
     void updateDoctor(Doctor doctor);
     void deleteDoctor(Long id);
     List<Doctor> getAllDoctors();
+    Doctor findById(Long id);
 }

@@ -1,11 +1,11 @@
-package org.mustapha.digitalhospitaljee.Repository;
+package org.mustapha.digitalhospitaljee.service;
 
 import org.mustapha.digitalhospitaljee.Exceptions.RoomException;
 import org.mustapha.digitalhospitaljee.model.Room;
 
 import java.util.List;
 
-public interface RoomRepository {
+public interface RoomService {
     void create(Room room) throws RoomException;
     void update(Room room)throws RoomException;
     void delete(Long id)throws RoomException;
