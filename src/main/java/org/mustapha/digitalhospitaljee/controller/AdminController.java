@@ -33,15 +33,15 @@ public class AdminController extends HttpServlet {
 
         try {
             if (action == null || action.isEmpty()) {
-                req.getRequestDispatcher("/WEB-INF/view/admin/admin-dashboard.jsp").forward(req, resp);
+                req.getRequestDispatcher("/WEB-INF/view/assets/dashboards/admin-dashboard.jsp").forward(req, resp);
                 return;
             }
 
             switch (action) {
                 // Manage Patients
-                case "addPatient":
-                    req.getRequestDispatcher("/WEB-INF/view/patient/add.jsp").forward(req, resp);
-                    break;
+//                case "addPatient":
+//                    req.getRequestDispatcher("/WEB-INF/view/patient/add.jsp").forward(req, resp);
+//                    break;
                 case "updatePatient":
                     req.getRequestDispatcher("/WEB-INF/view/patient/update.jsp").forward(req, resp);
                     break;

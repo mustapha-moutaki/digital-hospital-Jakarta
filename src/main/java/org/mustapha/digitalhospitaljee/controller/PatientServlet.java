@@ -1,9 +1,3 @@
-/**
- * The controller or Servlet it the class that is responsible to get data from the front to db and verse virsa
- *  note: doGet when is methode of request is get-like get that page
- *  note : doPost when is the methode or request is post -like from of info
- */
-
 package org.mustapha.digitalhospitaljee.controller;
 
 import jakarta.servlet.*;
@@ -18,21 +12,70 @@ import org.mustapha.digitalhospitaljee.service.impl.PatientServiceImpl;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/patient/dashboard") // this is the url path
+@WebServlet("/patient/dashboard")
+//@WebServlet(urlPatterns = {"/patient/dashboard", "/patients"})
 public class PatientServlet extends HttpServlet {
 
     private PatientRepository patientRepository;
+    private PatientService patientService;
 
     @Override
     public void init() throws ServletException {
         patientRepository = new PatientRepositoryImpl();
-        PatientService patientService = new PatientServiceImpl(patientRepository);
+        patientService = new PatientServiceImpl(patientRepository);
     }
+
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
 
+        String action = req.getParameter("action");
+
+        switch (action == null ? "" : action) {
+            case "addPatient":
+                req.getRequestDispatcher("/WEB-INF/view/patient/add.jsp").forward(req, resp);
+                break;
+            case "listPatients":
+                List<Patient> patients = patientService.getAllPatients();
+                req.setAttribute("patients", patients);
+                req.getRequestDispatcher("/WEB-INF/view/patient/list.jsp").forward(req, resp);
+                break;
+            default:
+                req.getRequestDispatcher("/WEB-INF/view/assets/dashboards/patient-dashboard.jsp").forward(req, resp);
+                break;
+        }
     }
-
-
-
+//
+//    @Override
+//    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+//            throws ServletException, IOException {
+//
+//        String action = req.getParameter("action");
+//
+//        switch (action == null ? "" : action) {
+//            case "addPatient":
+//                String name = req.getParameter("name");
+//                String email = req.getParameter("email");
+//                String phone = req.getParameter("phone");
+//
+//                Patient patient = new Patient();
+//                patient.setName(name);
+//                patient.setEmail(email);
+//                patient.setPhone(phone);
+//
+//                patientService.addPatient(patient);
+//                resp.sendRedirect(req.getContextPath() + "/patient/dashboard?action=listPatients");
+//                break;
+//
+//            case "deletePatient":
+//                int id = Integer.parseInt(req.getParameter("id"));
+//                patientService.deletePatient(id);
+//                resp.sendRedirect(req.getContextPath() + "/patient/dashboard?action=listPatients");
+//                break;
+//
+//            default:
+//                resp.sendRedirect(req.getContextPath() + "/patient/dashboard");
+//                break;
+//        }
+//    }
 }

@@ -103,25 +103,16 @@
 
 <!-- Sidebar -->
 <div class="sidebar">
+<jsp:include page="../components/adminSidebar.jsp" />
     <div class="sidebar-section">Main Menu</div>
-    <ul class="sidebar-menu">
-        <li><a href="/admin/dashboard">Dashboard</a></li>
-        <li><a href="/doctors">Manage Doctors</a></li>
-        <li><a href="/patients">Manage Patients</a></li>
-        <li><a href="/departments">Manage Departments</a></li>
-        <li><a href="/departments">Manage Rooms</a></li>
-    </ul>
 
-    <div class="sidebar-footer">
-        <a href="#">Logout</a>
-    </div>
 </div>
 
 <!-- Main Content Area -->
-<main class="main-content">
-    <h2>Welcome to Admin Dashboard</h2>
-    <p>Here you can manage doctors, patients, and departments.</p>
-</main>
+<%--<main class="main-content">--%>
+<%--    <h2>Welcome to Admin Dashboard</h2>--%>
+<%--    <p>Here you can manage Patients, consultations</p>--%>
+<%--</main>--%>
 
 <!-- Footer -->
 <jsp:include page="../components/footer.jsp" />

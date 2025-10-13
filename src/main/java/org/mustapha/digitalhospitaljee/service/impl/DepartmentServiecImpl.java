@@ -2,6 +2,7 @@ package org.mustapha.digitalhospitaljee.service.impl;
 
 import org.mustapha.digitalhospitaljee.Exceptions.BusinessException;
 import org.mustapha.digitalhospitaljee.Repository.DepartmentRepository;
+import org.mustapha.digitalhospitaljee.Repository.impl.DepartmentRepositoryImpl;
 import org.mustapha.digitalhospitaljee.model.Department;
 import org.mustapha.digitalhospitaljee.service.DepartmentService;
 import org.mustapha.digitalhospitaljee.validation.DepartmentValidator;
@@ -13,7 +14,7 @@ public class DepartmentServiecImpl implements DepartmentService {
     DepartmentRepository departmentRepository;
 
     public DepartmentServiecImpl(DepartmentRepository departmentRepository){
-        this.departmentRepository = departmentRepository;
+      this.departmentRepository =  departmentRepository;
     }
 
     @Override

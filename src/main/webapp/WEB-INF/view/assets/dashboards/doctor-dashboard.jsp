@@ -103,23 +103,26 @@
 
 <!-- Sidebar -->
 <div class="sidebar">
+    <jsp:include page="../components/doctorSidebar.jsp" />
     <div class="sidebar-section">Main Menu</div>
-    <ul class="sidebar-menu">
-        <li><a href="/admin/dashboard">Dashboard</a></li>
-        <li><a href="/doctors">Manage Patients</a></li>
-        <li><a href="/patients">profile</a></li>
-    </ul>
+    <%--    <ul class="sidebar-menu">--%>
+    <%--        <li><a href="/admin/dashboard">Dashboard</a></li>--%>
+    <%--        <li><a href="/doctors">Manage Patients</a></li>--%>
+    <%--        <li><a href="/doctors">Manage Doctors</a></li>--%>
+    <%--        <li><a href="/doctors">Manage Departments</a></li>--%>
+    <%--        <li><a href="/patients">profile</a></li>--%>
+    <%--    </ul>--%>
 
-    <div class="sidebar-footer">
-        <a href="#">Logout</a>
-    </div>
+    <%--    <div class="sidebar-footer">--%>
+    <%--        <a href="#">Logout</a>--%>
+    <%--    </div>--%>
 </div>
 
 <!-- Main Content Area -->
-<main class="main-content">
-    <h2>Welcome to Doctor Dashboard</h2>
-    <p>Here you can manage Patients, consultations</p>
-</main>
+<%--<main class="main-content">--%>
+<%--    <h2>Welcome to Admin Dashboard</h2>--%>
+<%--    <p>Here you can manage Patients, consultations</p>--%>
+<%--</main>--%>
 
 <!-- Footer -->
 <jsp:include page="../components/footer.jsp" />
