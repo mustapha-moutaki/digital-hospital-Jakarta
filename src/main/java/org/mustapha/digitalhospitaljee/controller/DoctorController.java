@@ -24,7 +24,7 @@ import java.util.List;
 
 import static java.lang.Long.parseLong;
 
-@WebServlet("/doctor/dashboard")
+@WebServlet("/doctor/*")
 public class DoctorController extends HttpServlet {
 
     private DoctorService doctorService;
@@ -106,7 +106,7 @@ public class DoctorController extends HttpServlet {
         }
 
         switch (action) {
-            case "createDoctor": {
+            case "addDoctor": {
                 String firstname = req.getParameter("firstName");
                 String lastname = req.getParameter("lastName");
                 String email = req.getParameter("email");

@@ -100,8 +100,8 @@
             <td><%= doc.getDepartment().getName() %></td>
             <td><%= doc.getPassword() %></td>
             <td>
-                <a href="<%= request.getContextPath() %>/doctor/dashboard?action=edit&id=<%= doc.getId() %>">Edit</a> |
-                <a href="<%= request.getContextPath() %>/doctor/dashboard?action=delete&id=<%= doc.getId() %>">Delete</a>
+                <a href="<%= request.getContextPath() %>/doctor/edit?action=edit&id=<%= doc.getId() %>">Edit</a> |
+                <a href="<%= request.getContextPath() %>/doctor/delete?action=delete&id=<%= doc.getId() %>">Delete</a>
             </td>
         </tr>
         <% } %>

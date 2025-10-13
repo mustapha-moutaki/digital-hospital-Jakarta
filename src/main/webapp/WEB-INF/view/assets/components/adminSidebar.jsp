@@ -1,30 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<aside class="sidebar">
-    <div class="sidebar-header">
-        <h2>Admin Panel</h2>
-        <p>Digital Hospital</p>
-    </div>
-
-    <nav class="sidebar-nav">
-        <ul>
-            <li><a href="dashboard" class="active"><i class="fa fa-home" ></i> Dashboard</a></li>
-            <li><a href="${pageContext.request.contextPath}/doctor/dashboard?action=list"><i class="fa fa-user-md"></i> Doctors</a></li>
-            <li><a href="${pageContext.request.contextPath}/patient/dashboard?action=list"><i class="fa fa-users"></i> Patients</a></li>
-            <li><a href="${pageContext.request.contextPath}/departments?action=list"><i class="fa fa-building"></i> Departments</a></li>
-            <li><a href="rooms"><i class="fa fa-bed"></i> Rooms</a></li>
-            <li><a href="consultations"><i class="fa fa-stethoscope"></i> Consultations</a></li>
-            <li><a href="appointments"><i class="fa fa-calendar"></i> Appointments</a></li>
-        </ul>
-    </nav>
-
-    <div class="sidebar-footer">
-        <hr>
-        <a href="logout" class="logout"><i class="fa fa-sign-out"></i> Logout</a>
-    </div>
-</aside>
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-    /* Sidebar Styling */
+    /* font awsome*/     /* Sidebar Styling */
     .sidebar {
         position: fixed;
         left: 0;
@@ -115,6 +92,11 @@
         color: #ff7979;
     }
 
+    .main-content {
+        margin-left: 240px;
+        padding: 20px;
+    }
+
     /* Responsive for mobile */
     @media (max-width: 768px) {
         .sidebar {
@@ -135,7 +117,29 @@
             margin: 0;
         }
     }
-</style>
 
-<!-- FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+</style>
+<aside class="sidebar">
+    <div class="sidebar-header">
+        <h2>Admin Panel</h2>
+        <p>Digital Hospital</p>
+    </div>
+
+    <nav class="sidebar-nav">
+        <ul>
+            <li><a href="dashboard" class="active"><i class="fa fa-home" ></i> Dashboard</a></li>
+            <li><a href="${pageContext.request.contextPath}/doctor/manage?action=list"><i class="fa fa-user-md"></i> Doctors</a></li>
+            <li><a href="${pageContext.request.contextPath}/patient/list?action=list"><i class="fa fa-users"></i> Patients</a></li>
+            <li><a href="${pageContext.request.contextPath}/departments?action=list"><i class="fa fa-building"></i> Departments</a></li>
+            <li><a href="rooms"><i class="fa fa-bed"></i> Rooms</a></li>
+            <li><a href="consultations"><i class="fa fa-stethoscope"></i> Consultations</a></li>
+            <li><a href="appointments"><i class="fa fa-calendar"></i> Appointments</a></li>
+        </ul>
+    </nav>
+
+    <div class="sidebar-footer">
+        <hr>
+        <a href="logout" class="logout"><i class="fa fa-sign-out"></i> Logout</a>
+    </div>
+</aside>
