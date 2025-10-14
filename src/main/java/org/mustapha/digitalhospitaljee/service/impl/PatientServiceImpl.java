@@ -65,11 +65,8 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public List<Patient> getAllPatients() {
-        List<Patient> patients = patientRepository.findAll();
-        if (patients == null || patients.isEmpty()) {
-            throw new BusinessException("No patients found in the database");
-        }
-        return patients;
+        return patientRepository.findAll();
+
     }
 
 

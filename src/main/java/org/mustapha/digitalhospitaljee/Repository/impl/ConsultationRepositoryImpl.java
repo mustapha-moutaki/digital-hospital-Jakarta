@@ -78,28 +78,39 @@ public class ConsultationRepositoryImpl implements ConsultationRepository {
         EntityManager em = emf.createEntityManager();
 
         try(em){
-            return em.createQuery("SELECT c FROM Consultation c", Consultation.class).getResultList();
+            return em.createQuery("SELECT c FROM Consultation c JOIN FETCH c.doctor d JOIN FETCH c.patient p", Consultation.class).getResultList();
         } catch (RuntimeException e) {
             throw new ConsultationExceptions("failed to get list of consultations "+e);
         }
     }
 
     @Override
-    public boolean changeStatus(Long consultationId, ConsultationStatus newConsultationStatus) throws ConsultationExceptions{
+    public boolean changeStatus(Long consultationId, ConsultationStatus newConsultationStatus) throws ConsultationExceptions {
         EntityManager em = emf.createEntityManager();
-        try(em){
-            EntityTransaction tx = em.getTransaction();
+        EntityTransaction tx = em.getTransaction();
+
+        try {
             tx.begin();
+
             Consultation consultation = em.find(Consultation.class, consultationId);
-            if(consultation == null){
-                throw new ConsultationExceptions("Failed to find the consultation ");
+            if (consultation == null) {
+                throw new ConsultationExceptions("Failed to find the consultation with ID: " + consultationId);
             }
+
             consultation.setConsultationStatus(newConsultationStatus);
             em.merge(consultation);
+
             tx.commit();
             return true;
+
         } catch (RuntimeException e) {
-            throw new ConsultationExceptions("failed to change status "+e);
+            if (tx.isActive()) {
+                tx.rollback();
+            }
+            throw new ConsultationExceptions("Failed to change status: " + e.getMessage());
+        } finally {
+            em.close();
         }
     }
+
 }

@@ -133,7 +133,7 @@
             <li><a href="${pageContext.request.contextPath}/patient/list?action=list"><i class="fa fa-users"></i> Patients</a></li>
             <li><a href="${pageContext.request.contextPath}/department?action=list"><i class="fa fa-building"></i> Departments</a></li>
             <li><a href="rooms"><i class="fa fa-bed"></i> Rooms</a></li>
-            <li><a href="consultations"><i class="fa fa-stethoscope"></i> Consultations</a></li>
+            <li><a href="${pageContext.request.contextPath}/consultation?action=allList"><i class="fa fa-stethoscope"></i> Consultations</a></li>
             <li><a href="appointments"><i class="fa fa-calendar"></i> Appointments</a></li>
         </ul>
     </nav>

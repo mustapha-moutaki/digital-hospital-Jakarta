@@ -19,9 +19,8 @@ public class Consultation {
     @Column(nullable = false)
     private LocalDateTime dateTime;
 
-    @NotNull(message = "Consultation status is required")
     @Enumerated(EnumType.STRING)
-    @Column(name = "consultation_status", nullable = false)
+    @Column(name = "consultation_status", nullable = false, columnDefinition = "ENUM('CANCELED', 'COMPLETED', 'CONFIRMED', 'PENDING') DEFAULT 'PENDING'")
     ConsultationStatus consultationStatus;
 
     @ManyToOne
@@ -74,7 +73,9 @@ public class Consultation {
     public Patient getPatient() {
         return patient;
     }
-
+    public Doctor getDoctor(){
+        return doctor;
+    }
     public void setPatient(Patient patient) {
         this.patient = patient;
     }

@@ -49,18 +49,18 @@ public class ConsultationServiceImpl implements ConsultationService {
         return  consultationRepository.consultationList();
     }
 
-    @Override
-    public boolean changeStatus(Long consultationId, ConsultationStatus newConsultationStatus) {
-        if (consultationId == null || consultationId <= 0) {
-            throw new BusinessException("Invalid consultation ID");
-        }
-        if (newConsultationStatus == null) {
-            throw new BusinessException("New consultation status cannot be null");
-        }
+        @Override
+        public boolean changeStatus(Long consultationId, ConsultationStatus newConsultationStatus) {
+            if (consultationId == null || consultationId <= 0) {
+                throw new BusinessException("Invalid consultation ID");
+            }
+            if (newConsultationStatus == null) {
+                throw new BusinessException("New consultation status cannot be null");
+            }
 
-        Consultation consultation = consultationRepository.findConsultation(consultationId);
-        consultation.setConsultationStatus(newConsultationStatus);
+            Consultation consultation = consultationRepository.findConsultation(consultationId);
+            consultation.setConsultationStatus(newConsultationStatus);
 
-        return true;
-    }
+            return true;
+        }
 }
