@@ -23,7 +23,7 @@ public class DepartmentRepositoryImpl implements DepartmentRepository {
         EntityManager em = emf.createEntityManager();
         try (em) {
             EntityTransaction tx = em.getTransaction();
-            tx.commit();
+            tx.begin();
             em.persist(department);
             tx.commit();
         } catch (RuntimeException e) {

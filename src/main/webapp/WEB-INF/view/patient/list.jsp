@@ -60,6 +60,10 @@
             text-decoration: none;
             color: white;
         }
+        .side{
+            height: 100vh;
+            color: black;
+        }
     </style>
 </head>
 <body>

@@ -47,7 +47,7 @@
 <div class="message-box">
     <h2><i class="fa-solid fa-circle-check"></i> Success!</h2>
     <p>${message}</p>
-    <a href="${pageContext.request.contextPath}/patient/list">Go Back</a>
+    <a href="${pageContext.request.contextPath}/admin/dashboard">Go Back</a>
 </div>
 </body>
 </html>
