@@ -92,17 +92,17 @@
         </tr>
         </thead>
         <tbody>
-        <% for (Patient doc : patients) { %>
+        <% for (Patient pa : patients) { %>
         <tr>
-            <td><%= doc.getId() %></td>
-            <td><%= doc.getFirstName() + " " +doc.getLastname() %></td>
-            <td><%= doc.getEmail() %></td>
-            <td><%= doc.getTall() %></td>
-            <td><%= doc.getWeight()%></td>
-            <td><%= doc.getPassword() %></td>
+            <td><%= pa.getId() %></td>
+            <td><%= pa.getFirstName() + " " +pa.getLastname() %></td>
+            <td><%= pa.getEmail() %></td>
+            <td><%= pa.getTall() %></td>
+            <td><%= pa.getWeight()%></td>
+            <td><%= pa.getPassword() %></td>
             <td>
-                <a href="<%= request.getContextPath() %>/doctor/edit?action=edit&id=<%= doc.getId() %>">Edit</a> |
-                <a href="<%= request.getContextPath() %>/doctor/delete?action=delete&id=<%= doc.getId() %>">Delete</a>
+                <a href="<%= request.getContextPath() %>/patient/edit?action=edit&id=<%= pa.getId() %>">Edit</a> |
+                <a href="<%= request.getContextPath() %>/patient?action=delete&id=<%= pa.getId() %>">Delete</a>
             </td>
         </tr>
         <% } %>
