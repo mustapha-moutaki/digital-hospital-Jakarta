@@ -36,10 +36,14 @@ public class ConsultationController extends HttpServlet {
 
                req.setAttribute("allConsultation", consultationList);
                req.setAttribute("status", ConsultationStatus.values());
-               resp.sendRedirect(req.getContextPath()+"/consultation?action=allList");
-
+               req.getRequestDispatcher("/WEB-INF/view/consultation/allList.jsp").forward(req, resp);
                break;
-           case "update":
+           case "delete":
+               long idParam = Long.parseLong(req.getParameter("id"));
+               consultationService.delete(idParam);
+//               resp.getWriter().write("the consulataion removed successfully ");
+                resp.sendRedirect(req.getContextPath()+"/consultation?action=allList");
+
                break;
            default:req.getRequestDispatcher("/WEB-INF/view/consultation/allList.jsp").forward(req, resp);
 
@@ -51,15 +55,13 @@ public class ConsultationController extends HttpServlet {
         String action = req.getParameter("action");
         switch (action){
             case "updateStatus":
-            long id = Long.parseLong(req.getParameter("id"));
-            String newConsultationSt = req.getParameter("consultationStatus");
-            ConsultationStatus statusenum = ConsultationStatus.valueOf(newConsultationSt); // comverting form string to enum
-            consultationService.changeStatus(id, statusenum);
-            resp.sendRedirect(req.getContextPath()+"/consultation?action=allList");
-            break;
-            case "updateConsultation":
+                long id = Long.parseLong(req.getParameter("id"));
+                String newConsultationSt = req.getParameter("consultationStatus");
+                ConsultationStatus statusenum = ConsultationStatus.valueOf(newConsultationSt); // comverting form string to enum
+                consultationService.changeStatus(id, statusenum);
+                resp.sendRedirect(req.getContextPath()+"/consultation?action=allList");
+                break;
 
-            break;
             default: req.getRequestDispatcher("/WEB-INF/view/consultation/allList.jsp").forward(req, resp);
         }
     }

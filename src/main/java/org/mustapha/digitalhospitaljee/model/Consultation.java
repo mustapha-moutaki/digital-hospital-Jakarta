@@ -15,7 +15,7 @@ public class Consultation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Date and time is required")
+//    @NotBlank(message = "Date and time is required")
     @Column(nullable = false)
     private LocalDateTime dateTime;
 

@@ -55,9 +55,11 @@ public class ConsultationRepositoryImpl implements ConsultationRepository {
             Consultation consultation = em.find(Consultation.class, id);
             if(consultation != null){
                 em.remove(consultation);
+
             }else{
                 throw new ConsultationExceptions("the consultaion is not exist ");
             }
+            tx.commit();
         } catch (RuntimeException e) {
             throw new ConsultationExceptions("Failed to delete Consultation " + e);
         }
@@ -86,31 +88,52 @@ public class ConsultationRepositoryImpl implements ConsultationRepository {
 
     @Override
     public boolean changeStatus(Long consultationId, ConsultationStatus newConsultationStatus) throws ConsultationExceptions {
+        if (consultationId == null || consultationId <= 0) {
+            throw new ConsultationExceptions("Invalid consultation ID: " + consultationId);
+        }
+        if (newConsultationStatus == null) {
+            throw new ConsultationExceptions("New consultation status cannot be null");
+        }
+
         EntityManager em = emf.createEntityManager();
-        EntityTransaction tx = em.getTransaction();
+        EntityTransaction tx = null;
 
         try {
+            System.out.println("[DEBUG] Starting transaction to update consultation ID: " + consultationId);
+            tx = em.getTransaction();
             tx.begin();
 
             Consultation consultation = em.find(Consultation.class, consultationId);
             if (consultation == null) {
-                throw new ConsultationExceptions("Failed to find the consultation with ID: " + consultationId);
+                throw new ConsultationExceptions("Consultation not found with ID: " + consultationId);
             }
 
+            System.out.println("[DEBUG] Current status: " + consultation.getConsultationStatus() +
+                    ", Updating to: " + newConsultationStatus);
             consultation.setConsultationStatus(newConsultationStatus);
+
+            // merge is optional here since the entity is managed
             em.merge(consultation);
 
             tx.commit();
+            System.out.println("[DEBUG] Transaction committed successfully for consultation ID: " + consultationId);
             return true;
 
         } catch (RuntimeException e) {
-            if (tx.isActive()) {
+            if (tx != null && tx.isActive()) {
+                System.out.println("[DEBUG] Transaction rollback due to exception");
                 tx.rollback();
             }
-            throw new ConsultationExceptions("Failed to change status: " + e.getMessage());
+            e.printStackTrace();
+            throw new ConsultationExceptions("Failed to change status for consultation ID " + consultationId + ": " + e.getMessage());
         } finally {
-            em.close();
+            if (em.isOpen()) {
+                em.close();
+                System.out.println("[DEBUG] EntityManager closed");
+            }
         }
     }
+
+
 
 }

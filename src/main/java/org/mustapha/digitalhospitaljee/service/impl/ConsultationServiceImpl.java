@@ -58,9 +58,9 @@ public class ConsultationServiceImpl implements ConsultationService {
                 throw new BusinessException("New consultation status cannot be null");
             }
 
-            Consultation consultation = consultationRepository.findConsultation(consultationId);
-            consultation.setConsultationStatus(newConsultationStatus);
-
+//            Consultation consultation = consultationRepository.findConsultation(consultationId);
+//            consultation.setConsultationStatus(newConsultationStatus);
+            consultationRepository.changeStatus(consultationId, newConsultationStatus);
             return true;
         }
 }

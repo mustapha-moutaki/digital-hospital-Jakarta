@@ -115,8 +115,9 @@
 
                     <select name="consultationStatus">
                         <c:forEach var="statusItem" items="${status}">
+
                             <option value="${statusItem}"
-                                    <c:if test="${statusItem == cons.consultationStatus}">selected</c:if>>
+                                    <c:if test="${statusItem eq cons.consultationStatus}">selected</c:if>>
                                     ${statusItem}
                             </option>
                         </c:forEach>
@@ -126,8 +127,7 @@
 
             </td>
             <td>
-                <a href="<%= request.getContextPath() %>/doctor/edit?action=edit&id=<%= cons.getId() %>">Edit</a> |
-                <a href="<%= request.getContextPath() %>/doctor/delete?action=delete&id=<%= cons.getId() %>">Delete</a>
+                <a href="<%= request.getContextPath() %>/consultation?action=delete&id=<%= cons.getId() %>">Delete</a>
             </td>
         </tr>
         <% } %>
