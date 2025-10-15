@@ -76,6 +76,19 @@ public class PatientRepositoryImpl implements PatientRepository {
             return em.find(Patient.class, id);
         }
     }
+
+    @Override
+    public List<Patient> getAllByDoctorId(Long id) throws PatientException {
+        EntityManager em = emf.createEntityManager();
+        try(em){
+            return   em.createQuery("SELECT d.patient FROM Department d WHERE d.doctor.id = :doctorId", Patient.class)
+                    .setParameter("doctorId", id)
+                    .getResultList();
+        } catch (RuntimeException e) {
+            throw  new PatientException("failed to get doctor patients list");
+        }
+    }
+
     void closeFactory(){
         if(emf.isOpen()){
             emf.close();

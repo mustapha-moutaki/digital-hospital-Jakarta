@@ -12,4 +12,5 @@ public interface PatientRepository {
     void update(Patient patient) throws PatientException;
     List<Patient> findAll() throws PatientException;
     Patient findById(Long id) throws PatientException;
+    List<Patient>getAllByDoctorId(Long id);
 }

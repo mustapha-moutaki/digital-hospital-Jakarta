@@ -70,4 +70,8 @@ public class PatientServiceImpl implements PatientService {
     }
 
 
+    @Override
+    public List<Patient> getAllByDoctorId(Long id) {
+        return patientRepository.getAllByDoctorId(id);
+    }
 }

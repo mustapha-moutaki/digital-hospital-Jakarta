@@ -7,10 +7,10 @@
 
     <nav class="sidebar-nav">
         <ul>
-            <li><a href="managePatients"><i class="fa fa-users"></i> Patients</a></li>
-            <li><a href="departments"><i class="fa fa-building"></i> Departments</a></li>
+            <li><a href="${pageContext.request.contextPath}/patient/list?action=list"><i class="fa fa-users"></i> Patients</a></li>
+            <li><a href="departments"><i class="fa fa-building"></i> My department</a></li>
             <li><a href="consultations"><i class="fa fa-stethoscope"></i> Consultations</a></li>
-            <li><a href="appointments"><i class="fa fa-calendar"></i> Appointments</a></li>
+            <li><a href="consultations"><i class="fa fa-stethoscope"></i> My Info </a></li>
         </ul>
     </nav>
 

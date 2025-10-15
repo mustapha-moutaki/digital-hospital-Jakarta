@@ -4,14 +4,20 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.WebServlet;
 import org.hibernate.sql.Update;
+import org.mustapha.digitalhospitaljee.Repository.DoctorRepository;
 import org.mustapha.digitalhospitaljee.Repository.PatientRepository;
+import org.mustapha.digitalhospitaljee.Repository.impl.DoctorRepositoryImpl;
 import org.mustapha.digitalhospitaljee.Repository.impl.PatientRepositoryImpl;
 import org.mustapha.digitalhospitaljee.model.Doctor;
 import org.mustapha.digitalhospitaljee.model.Patient;
+import org.mustapha.digitalhospitaljee.service.DoctorService;
 import org.mustapha.digitalhospitaljee.service.PatientService;
+import org.mustapha.digitalhospitaljee.service.impl.DoctorServiceImpl;
 import org.mustapha.digitalhospitaljee.service.impl.PatientServiceImpl;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @WebServlet("/patient/*")
@@ -21,10 +27,15 @@ public class PatientController extends HttpServlet {
     private PatientRepository patientRepository;
     private PatientService patientService;
 
+    private DoctorService doctorService;
+
     @Override
     public void init() throws ServletException {
         patientRepository = new PatientRepositoryImpl();
         patientService = new PatientServiceImpl(patientRepository);
+
+        DoctorRepository doctorRepository = new DoctorRepositoryImpl();
+        doctorService = new DoctorServiceImpl(doctorRepository);
     }
 
     @Override
@@ -33,7 +44,7 @@ public class PatientController extends HttpServlet {
 
         String action = req.getParameter("action");
 
-        switch (action == null ? "" : action) {
+        switch (action) {
             case "add":
                 req.getRequestDispatcher("/WEB-INF/view/patient/add.jsp").forward(req, resp);
                 break;
@@ -52,8 +63,18 @@ public class PatientController extends HttpServlet {
                 req.setAttribute("message", messagesucess);
                 req.getRequestDispatcher("WEB-INF/view/assets/success/successMessage.jsp").forward(req, resp);
                 break;
+
+
             default:
-                List<Patient> patients = patientService.getAllPatients();
+                List<Patient> patients;
+//                if(user.getRole.equlas("Admin")){
+                    patients = patientService.getAllPatients();
+//                }else if(user.getRole.equals("Doctor")){
+//                    patients = patientService.getAllByDoctorId(user.getid());
+//                }else{
+////                   patients = Collections.emptyList();
+//                }
+
                 req.setAttribute("patients", patients);
                 req.getRequestDispatcher("/WEB-INF/view/patient/list.jsp").forward(req, resp);
 
