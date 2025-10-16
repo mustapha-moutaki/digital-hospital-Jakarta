@@ -1,7 +1,15 @@
+<%@ page import="jakarta.persistence.EntityManagerFactory" %>
+<%@ page import="jakarta.persistence.Persistence" %>
+<%@ page import="org.mustapha.digitalhospitaljee.Repository.impl.AdminRepositoryImpl" %>
+<%@ page import="org.mustapha.digitalhospitaljee.model.Admin" %>
+<%@ page import="org.mustapha.digitalhospitaljee.Repository.impl.DoctorRepositoryImpl" %>
+<%@ page import="org.mustapha.digitalhospitaljee.model.Doctor" %>
+<%@ page import="org.mustapha.digitalhospitaljee.Repository.impl.PatientRepositoryImpl" %>
+<%@ page import="org.mustapha.digitalhospitaljee.model.Patient" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
-<he>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Digital Clinic</title>
@@ -95,7 +103,7 @@
             }
         }
     </style>
-</he>
+</head>
 <body>
 
 <!-- Header -->
@@ -103,16 +111,47 @@
 
 <!-- Sidebar -->
 <div class="sidebar">
-<jsp:include page="../components/adminSidebar.jsp" />
+<jsp:include page="../components/sideBar.jsp" />
     <div class="sidebar-section">Main Menu</div>
 
 </div>
 
 <!-- Main Content Area -->
-<%--<main class="main-content">--%>
-<%--    <h2>Welcome to Admin Dashboard</h2>--%>
-<%--    <p>Here you can manage Patients, consultations</p>--%>
-<%--</main>--%>
+<%
+    Long userId = (Long) session.getAttribute("userId");
+    String role = (String) session.getAttribute("role");
+
+    if(userId != null && role != null) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("hospitalPU");
+
+        if(role.equalsIgnoreCase("admin")) {
+            AdminRepositoryImpl repo = new AdminRepositoryImpl();
+            Admin admin = repo.finfById(userId);
+            role = (admin != null) ? admin.getRole() : null;
+        } else if(role.equalsIgnoreCase("doctor")) {
+            DoctorRepositoryImpl repo = new DoctorRepositoryImpl();
+            Doctor doctor = repo.findById(userId);
+            role = (doctor != null) ? doctor.getRole() : null;
+        } else if(role.equalsIgnoreCase("patient")) {
+            PatientRepositoryImpl repo = new PatientRepositoryImpl();
+            Patient patient = repo.findById(userId);
+            role = (patient != null) ? patient.getRole() : null;
+        }
+
+        emf.close();
+    }
+%>
+
+
+<main class="main-content">
+    <% if(role.equalsIgnoreCase("admin")) { %>
+    <p>welcome in admin dashabord</p>
+    <% } else if(role.equalsIgnoreCase("doctor")) {%>
+    <p>welcome in doctor dashabord</p>
+    <% } else if(role.equalsIgnoreCase("patient")){%>
+    <p>welcome in patient dashabord</p>
+    <% }%>
+</main>
 
 <!-- Footer -->
 <jsp:include page="../components/footer.jsp" />

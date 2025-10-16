@@ -78,6 +78,16 @@ public class DoctorRepositoryImpl implements DoctorRepository {
         }
     }
 
+
+    @Override
+    public Doctor findByEmail(String email) {
+        try (EntityManager em = emf.createEntityManager()) {
+            return em.find(Doctor.class, email);
+        } catch (RuntimeException e) {
+            throw new DoctorException("Failed to find doctor"+e);
+        }
+    }
+
     public void closeFactory() {
         if (emf.isOpen()) {
             emf.close();

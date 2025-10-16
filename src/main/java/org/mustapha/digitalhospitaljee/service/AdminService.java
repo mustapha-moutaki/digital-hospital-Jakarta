@@ -10,4 +10,5 @@ public interface AdminService {
     void delete(Long id);
     List<Admin> getAllAdmins();
     Admin findById(Long id);
+    Admin findByEmail(String email);
 }

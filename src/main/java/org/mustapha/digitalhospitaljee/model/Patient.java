@@ -14,6 +14,8 @@ public class Patient extends Person{
     @OneToMany(mappedBy = "patient")
     private List<Consultation>consultationList;
 
+
+
     public Patient(){}
     public Patient(String firstName, String lastName, String email, String password, double weight, double tall, List<Consultation> consultationList){
         super(firstName, lastName, email, password);
@@ -45,6 +47,8 @@ public class Patient extends Person{
     public void setConsultationList(List<Consultation> consultationList) {
         this.consultationList = consultationList;
     }
+
+
 
     @Override
     public String getRole() {

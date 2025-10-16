@@ -6,8 +6,10 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.mindrot.jbcrypt.BCrypt;
 import org.mustapha.digitalhospitaljee.Repository.AdminRepository;
 import org.mustapha.digitalhospitaljee.Repository.impl.AdminRepositoryImpl;
+import org.mustapha.digitalhospitaljee.model.Admin;
 import org.mustapha.digitalhospitaljee.service.AdminService;
 import org.mustapha.digitalhospitaljee.service.impl.AdminServiceImpl;
 
@@ -31,8 +33,10 @@ public class AdminController extends HttpServlet {
 
         String action = req.getParameter("action");
 
+
         try {
             if (action == null || action.isEmpty()) {
+
                 req.getRequestDispatcher("/WEB-INF/view/assets/dashboards/admin-dashboard.jsp").forward(req, resp);
                 return;
             }

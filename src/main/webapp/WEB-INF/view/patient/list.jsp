@@ -70,7 +70,7 @@
 
 <jsp:include page="../assets/components/header.jsp" />
 <%-- here we have to check teh role if he is doctor display the sidebar of docker --%>
-<jsp:include page="../assets/components/adminSidebar.jsp" />
+<jsp:include page="../assets/components/sideBar.jsp" />
 
 <main class="main-content">
     <div class="main-content-list">

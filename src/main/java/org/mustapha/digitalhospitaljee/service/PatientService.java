@@ -1,5 +1,6 @@
 package org.mustapha.digitalhospitaljee.service;
 
+import org.mustapha.digitalhospitaljee.model.Admin;
 import org.mustapha.digitalhospitaljee.model.Patient;
 
 import java.util.List;
@@ -11,4 +12,5 @@ public interface PatientService {
     Patient findById(Long id);
     List<Patient> getAllPatients();
     List<Patient> getAllByDoctorId(Long id);
+    Patient findByEmail(String email);
 }

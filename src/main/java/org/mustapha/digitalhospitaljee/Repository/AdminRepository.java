@@ -11,5 +11,5 @@ public interface AdminRepository {
     void delete(Long id)throws AdminCreationException;
     List<Admin> getAdminsList() throws AdminCreationException;
     Admin finfById(Long id)throws AdminCreationException;
-
+    Admin findByEmail(String email);
 }

@@ -1,6 +1,7 @@
 package org.mustapha.digitalhospitaljee.Repository;
 
 import org.mustapha.digitalhospitaljee.Exceptions.PatientException;
+import org.mustapha.digitalhospitaljee.model.Admin;
 import org.mustapha.digitalhospitaljee.model.Doctor;
 import org.mustapha.digitalhospitaljee.model.Patient;
 
@@ -13,4 +14,5 @@ public interface PatientRepository {
     List<Patient> findAll() throws PatientException;
     Patient findById(Long id) throws PatientException;
     List<Patient>getAllByDoctorId(Long id);
+    Patient findByEmail(String email);
 }

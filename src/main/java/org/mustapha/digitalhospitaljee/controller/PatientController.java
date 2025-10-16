@@ -4,6 +4,7 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.WebServlet;
 import org.hibernate.sql.Update;
+import org.mindrot.jbcrypt.BCrypt;
 import org.mustapha.digitalhospitaljee.Repository.DoctorRepository;
 import org.mustapha.digitalhospitaljee.Repository.PatientRepository;
 import org.mustapha.digitalhospitaljee.Repository.impl.DoctorRepositoryImpl;
@@ -98,12 +99,15 @@ public class PatientController extends HttpServlet {
                 patient.setFirstName(firstname);
                 patient.setLastname(lastname);
                 patient.setEmail(email);
-                patient.setPassword(password);
+                // hashing password
+                String hashPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+                patient.setPassword(hashPassword);
+                patient.setRole("Patient");
                 patient.setTall(tall);
                 patient.setWeight(weight);
 
                 patientService.craete(patient);
-                resp.sendRedirect(req.getContextPath() + "/patient/list.jsp");
+                resp.sendRedirect(req.getContextPath() + "/patient/list");
 
             break;
 

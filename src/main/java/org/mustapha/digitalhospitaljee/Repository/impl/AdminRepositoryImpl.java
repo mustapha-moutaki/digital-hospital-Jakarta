@@ -72,4 +72,23 @@ public class AdminRepositoryImpl implements AdminRepository {
             throw new AdminCreationException("Failed to find admin "+e);
         }
     }
+
+
+    @Override
+    public Admin findByEmail(String email) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            TypedQuery<Admin> query = em.createQuery(
+                    "SELECT a FROM Admin a WHERE a.email = :email", Admin.class
+            );
+            query.setParameter("email", email);
+            return query.getSingleResult(); // أو getResultList().stream().findFirst().orElse(null)
+        } catch (NoResultException e) {
+            return null;
+        } catch (RuntimeException e) {
+            throw new AdminCreationException("Failed to find admin " + e);
+        } finally {
+            em.close();
+        }
+    }
 }

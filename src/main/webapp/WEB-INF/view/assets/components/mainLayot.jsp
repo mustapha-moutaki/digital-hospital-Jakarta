@@ -12,7 +12,7 @@
 <jsp:include page="../components/header.jsp" />
 
 <!-- Sidebar -->
-<jsp:include page="adminSidebar.jsp" />
+<jsp:include page="sideBar.jsp" />
 
 <!-- Dynamic Main Content -->
 <main class="main-content">

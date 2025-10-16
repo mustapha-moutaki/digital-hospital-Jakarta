@@ -30,6 +30,8 @@ public abstract class Person {
     @Column(nullable = false)
     protected String password;
 
+    @Column(nullable = false)
+    protected String role;
 
     protected Person(){
     }
@@ -80,10 +82,16 @@ public abstract class Person {
         this.password = password;
     }
 
-    public abstract String getRole();
+    public void setRole(String role){
+         this.role = role;
+    }
+
+    public String getRole(){
+        return this.role;
+    }
 
     @Override
     public String toString() {
-        return ("first name : "+ this.firstName + " last name: "+this.lastname+" email: "+this.email);
+        return ("first name : "+ this.firstName + " last name: "+this.lastname+" email: "+this.email+ "role" +this.getRole());
     }
 }

@@ -1,3 +1,12 @@
+<%@ page import="org.mustapha.digitalhospitaljee.model.Person" %>
+<%@ page import="org.mustapha.digitalhospitaljee.model.Patient" %>
+<%@ page import="org.mustapha.digitalhospitaljee.Repository.impl.AdminRepositoryImpl" %>
+<%@ page import="jakarta.persistence.EntityManagerFactory" %>
+<%@ page import="org.mustapha.digitalhospitaljee.Repository.impl.DoctorRepositoryImpl" %>
+<%@ page import="jakarta.persistence.Persistence" %>
+<%@ page import="org.mustapha.digitalhospitaljee.model.Doctor" %>
+<%@ page import="org.mustapha.digitalhospitaljee.Repository.impl.PatientRepositoryImpl" %>
+<%@ page import="org.mustapha.digitalhospitaljee.model.Admin" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <style>
     /* Header Styles */
@@ -64,12 +73,42 @@
 </style>
 
 <header class="header">
+    <%
+        Long userId = (Long) session.getAttribute("userId");
+        String role = (String) session.getAttribute("role");
+
+        if(userId != null && role != null) {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("hospitalPU");
+
+            if(role.equalsIgnoreCase("admin")) {
+                AdminRepositoryImpl repo = new AdminRepositoryImpl();
+                Admin admin = repo.finfById(userId);
+                role = (admin != null) ? admin.getRole() : null;
+            } else if(role.equalsIgnoreCase("doctor")) {
+                DoctorRepositoryImpl repo = new DoctorRepositoryImpl();
+                Doctor doctor = repo.findById(userId);
+                role = (doctor != null) ? doctor.getRole() : null;
+            } else if(role.equalsIgnoreCase("patient")) {
+                PatientRepositoryImpl repo = new PatientRepositoryImpl();
+                Patient patient = repo.findById(userId);
+                role = (patient != null) ? patient.getRole() : null;
+            }
+
+            emf.close();
+        }
+    %>
+
     <div class="header-left">
         <div class="logo-container">
             <div class="logo-text">Digital Clinic</div>
         </div>
     </div>
     <div class="user-info">
-        <span>Mr. </span>
+<%--        <% if(user != null ){ %>--%>
+<%--        <span>Mr. <%= user.getFirstName() + " " + user.getLastname()%> </span>--%>
+   <%String currentrole = (String) session.getAttribute("role"); %>
+        <span>role: <%= currentrole%></span>
+        <span>role: <%= role%></span>
+<%--        <% } %>--%>
     </div>
 </header>

@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.mindrot.jbcrypt.BCrypt;
 import org.mustapha.digitalhospitaljee.Exceptions.BusinessException;
 import org.mustapha.digitalhospitaljee.Repository.AdminRepository;
 import org.mustapha.digitalhospitaljee.Repository.DepartmentRepository;
@@ -118,7 +119,10 @@ public class DoctorController extends HttpServlet {
                 doctor.setFirstName(firstname);
                 doctor.setLastname(lastname);
                 doctor.setEmail(email);
-                doctor.setPassword(password);
+                doctor.setRole("Doctor");
+                // hashing password
+                String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+                doctor.setPassword(hashedPassword);
                 doctor.setSpecialist(specialist);
 
                 if (departmentIdParam != null && !departmentIdParam.isEmpty()) {

@@ -89,7 +89,7 @@
 <body>
 
 <jsp:include page="../assets/components/header.jsp" />
-<jsp:include page="../assets/components/adminSidebar.jsp" />
+<jsp:include page="../assets/components/sideBar.jsp" />
 
 <main class="main-content">
     <div class="form-container">

@@ -89,6 +89,14 @@ public class PatientRepositoryImpl implements PatientRepository {
         }
     }
 
+    @Override
+    public Patient findByEmail(String email) {
+        EntityManager em = emf.createEntityManager();
+        try(em){
+            return em.find(Patient.class, email);
+        }
+    }
+
     void closeFactory(){
         if(emf.isOpen()){
             emf.close();

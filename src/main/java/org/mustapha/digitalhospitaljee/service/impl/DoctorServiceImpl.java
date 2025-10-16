@@ -2,6 +2,7 @@ package org.mustapha.digitalhospitaljee.service.impl;
 
 import org.mustapha.digitalhospitaljee.Exceptions.BusinessException;
 import org.mustapha.digitalhospitaljee.Repository.DoctorRepository;
+import org.mustapha.digitalhospitaljee.model.Admin;
 import org.mustapha.digitalhospitaljee.model.Doctor;
 import org.mustapha.digitalhospitaljee.service.DoctorService;
 import org.mustapha.digitalhospitaljee.validation.DoctorValidator;
@@ -54,5 +55,10 @@ public class DoctorServiceImpl implements DoctorService {
 
     public Doctor findDoctorById(Long id) {
         return findById(id);
+    }
+
+    @Override
+    public Doctor findByEmail(String email) {
+        return  doctorRepository.findByEmail(email);
     }
 }

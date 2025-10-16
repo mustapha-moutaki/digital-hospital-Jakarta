@@ -49,4 +49,9 @@ public class AdminServiceImpl implements AdminService {
         }
         return adminRepository.finfById(id);
     }
+
+        @Override
+        public Admin findByEmail(String email) {
+           return  adminRepository.findByEmail(email);
+        }
 }
