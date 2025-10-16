@@ -1,13 +1,11 @@
 package org.mustapha.digitalhospitaljee.Repository.impl;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.Persistence;
+import jakarta.persistence.*;
 import org.mustapha.digitalhospitaljee.Exceptions.DoctorException;
 import org.mustapha.digitalhospitaljee.Exceptions.PatientException;
 import org.mustapha.digitalhospitaljee.Repository.PatientRepository;
 import org.mustapha.digitalhospitaljee.model.Patient;
+import org.mustapha.digitalhospitaljee.model.Person;
 
 import java.util.List;
 
@@ -92,10 +90,33 @@ public class PatientRepositoryImpl implements PatientRepository {
     @Override
     public Patient findByEmail(String email) {
         EntityManager em = emf.createEntityManager();
-        try(em){
-            return em.find(Patient.class, email);
+        try {
+
+            TypedQuery<Person> query = em.createQuery(
+                    "SELECT p FROM Person p WHERE p.email = :email", Person.class
+            );
+            query.setParameter("email", email);
+            Person person = query.getSingleResult();
+
+
+            if(person instanceof Patient) {
+                return (Patient) person;
+            } else {
+                return null;
+            }
+
+        } catch (NoResultException e) {
+            return null;
+        } catch (RuntimeException e) {
+            throw new PatientException("Failed to find patient: " + e);
+        } finally {
+            em.close();
         }
     }
+//    public Patient findByEmail(String email) {
+//    EntityManager em = emf.createEntityManager();
+//    try(em){ return em.find(Patient.class, email);
+//    } }
 
     void closeFactory(){
         if(emf.isOpen()){

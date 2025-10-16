@@ -50,8 +50,4 @@ public class Patient extends Person{
 
 
 
-    @Override
-    public String getRole() {
-        return "patient";
-    }
 }

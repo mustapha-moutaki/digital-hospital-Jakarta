@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.mustapha.digitalhospitaljee.Exceptions.DoctorException;
 import org.mustapha.digitalhospitaljee.Repository.DoctorRepository;
 import org.mustapha.digitalhospitaljee.model.Doctor;
+import org.mustapha.digitalhospitaljee.model.Person;
 import org.mustapha.digitalhospitaljee.service.DoctorService;
 
 import java.util.List;
@@ -81,12 +82,31 @@ public class DoctorRepositoryImpl implements DoctorRepository {
 
     @Override
     public Doctor findByEmail(String email) {
-        try (EntityManager em = emf.createEntityManager()) {
-            return em.find(Doctor.class, email);
+        EntityManager em = emf.createEntityManager();
+        try {
+            TypedQuery<Person> query = em.createQuery(
+                    "SELECT p FROM Person p WHERE p.email = :email", Person.class
+            );
+            query.setParameter("email", email);
+            Person person = query.getSingleResult();
+
+
+            if(person instanceof Doctor) {
+                return (Doctor) person;
+            } else {
+                return null;
+            }
+
+        } catch (NoResultException e) {
+            return null;
         } catch (RuntimeException e) {
-            throw new DoctorException("Failed to find doctor"+e);
+            throw new DoctorException("Failed to find doctor: " + e);
+        } finally {
+            em.close();
         }
     }
+
+
 
     public void closeFactory() {
         if (emf.isOpen()) {

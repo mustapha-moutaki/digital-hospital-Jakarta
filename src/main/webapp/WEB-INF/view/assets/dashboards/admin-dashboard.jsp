@@ -117,40 +117,11 @@
 </div>
 
 <!-- Main Content Area -->
-<%
-    Long userId = (Long) session.getAttribute("userId");
-    String role = (String) session.getAttribute("role");
-
-    if(userId != null && role != null) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("hospitalPU");
-
-        if(role.equalsIgnoreCase("admin")) {
-            AdminRepositoryImpl repo = new AdminRepositoryImpl();
-            Admin admin = repo.finfById(userId);
-            role = (admin != null) ? admin.getRole() : null;
-        } else if(role.equalsIgnoreCase("doctor")) {
-            DoctorRepositoryImpl repo = new DoctorRepositoryImpl();
-            Doctor doctor = repo.findById(userId);
-            role = (doctor != null) ? doctor.getRole() : null;
-        } else if(role.equalsIgnoreCase("patient")) {
-            PatientRepositoryImpl repo = new PatientRepositoryImpl();
-            Patient patient = repo.findById(userId);
-            role = (patient != null) ? patient.getRole() : null;
-        }
-
-        emf.close();
-    }
-%>
-
 
 <main class="main-content">
-    <% if(role.equalsIgnoreCase("admin")) { %>
+
     <p>welcome in admin dashabord</p>
-    <% } else if(role.equalsIgnoreCase("doctor")) {%>
-    <p>welcome in doctor dashabord</p>
-    <% } else if(role.equalsIgnoreCase("patient")){%>
-    <p>welcome in patient dashabord</p>
-    <% }%>
+
 </main>
 
 <!-- Footer -->

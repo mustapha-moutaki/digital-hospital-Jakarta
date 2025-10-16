@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.mustapha.digitalhospitaljee.Exceptions.AdminCreationException;
 import org.mustapha.digitalhospitaljee.Repository.AdminRepository;
 import org.mustapha.digitalhospitaljee.model.Admin;
+import org.mustapha.digitalhospitaljee.model.Person;
 
 import java.util.List;
 
@@ -75,7 +76,7 @@ public class AdminRepositoryImpl implements AdminRepository {
 
 
     @Override
-    public Admin findByEmail(String email) {
+        public Admin findByEmail(String email) {
         EntityManager em = emf.createEntityManager();
         try {
             TypedQuery<Admin> query = em.createQuery(
@@ -91,4 +92,30 @@ public class AdminRepositoryImpl implements AdminRepository {
             em.close();
         }
     }
+//    public Admin findByEmail(String email) {
+//        EntityManager em = emf.createEntityManager();
+//        try {
+//            TypedQuery<Person> query = em.createQuery(
+//                    "SELECT p FROM Person p WHERE p.email = :email", Person.class
+//            );
+//            query.setParameter("email", email);
+//            Person person = query.getSingleResult();
+//
+//
+//            if(person instanceof Admin) {
+//                return (Admin) person;
+//            } else {
+//                return null;
+//            }
+//
+//        } catch (NoResultException e) {
+//            return null;
+//        } catch (RuntimeException e) {
+//            throw new AdminCreationException("Failed to find admin: " + e);
+//        } finally {
+//            em.close();
+//        }
+//    }
+
+
 }

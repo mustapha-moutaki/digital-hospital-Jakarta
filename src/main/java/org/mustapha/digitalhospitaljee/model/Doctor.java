@@ -50,8 +50,4 @@ public class Doctor extends Person{
         this.consultationList = consultationList;
     }
 
-    @Override
-    public String getRole() {
-        return "Doctor";
-    }
 }

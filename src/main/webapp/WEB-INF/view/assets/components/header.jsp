@@ -106,9 +106,8 @@
     <div class="user-info">
 <%--        <% if(user != null ){ %>--%>
 <%--        <span>Mr. <%= user.getFirstName() + " " + user.getLastname()%> </span>--%>
-   <%String currentrole = (String) session.getAttribute("role"); %>
-        <span>role: <%= currentrole%></span>
-        <span>role: <%= role%></span>
+   <%String currentUserFirstName = (String) session.getAttribute("currentUserFirstName"); %>
+        <span>Mr. <%= currentUserFirstName%></span>
 <%--        <% } %>--%>
     </div>
 </header>

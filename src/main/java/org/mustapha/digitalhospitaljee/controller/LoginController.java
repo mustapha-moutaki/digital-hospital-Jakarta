@@ -54,7 +54,7 @@
                 // search for user
                 Person user = adminService.findByEmail(email);
                 System.out.println("***********************");
-                System.out.println( user.getRole());
+//                System.out.println( user.getRole());
                 System.out.println(user);
 
                 if(user == null){
@@ -65,14 +65,16 @@
                     user = patientService.findByEmail(email);
                 }
 
-                if(user != null && password.equals(user.getPassword()) ){//&& BCrypt.checkpw(password, user.getPassword())
+                if(user != null && BCrypt.checkpw(password, user.getPassword())){//&& BCrypt.checkpw(password, user.getPassword())--password.equals(user.getPassword())
 
                     HttpSession session = req.getSession();
                     session.setAttribute("currentUserId", user.getId());
+                    session.setAttribute("currentUserFirstName", user.getFirstName());
                     session.setAttribute("role", user.getRole());
                     System.out.println("**************************");
 //                    System.out.println(session.getAttribute("role"));
-                    System.out.println(user);
+                    System.out.println(user.getRole());
+                    System.out.println(user.getId());
 
                     switch (user.getRole()){
                         case "Admin":
