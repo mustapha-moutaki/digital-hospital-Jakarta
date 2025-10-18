@@ -8,6 +8,7 @@ import org.mustapha.digitalhospitaljee.Exceptions.RoomException;
 import org.mustapha.digitalhospitaljee.Repository.RoomRepository;
 import org.mustapha.digitalhospitaljee.model.Room;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class RoomRepositoryImp implements RoomRepository {
@@ -87,15 +88,8 @@ public class RoomRepositoryImp implements RoomRepository {
     }
 
     @Override
-    public boolean isDisponible(Long id) throws RoomException {
-        try (EntityManager em = emf.createEntityManager()) {
-            Room room = em.find(Room.class, id);
-            if (room == null) {
-                throw new RoomException("Room with id " + id + " does not exist");
-            }
-            return room.isAvailable();
-        } catch (RuntimeException e) {
-            throw new RoomException("Failed to get room status: " +e);
-        }
+    public boolean isDisponible(Long id, LocalDateTime dateTime) throws RoomException {
+        Room room = getRoomById(id);
+        return room.checkAvailability(dateTime);
     }
 }

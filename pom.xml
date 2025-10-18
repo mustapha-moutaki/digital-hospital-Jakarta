@@ -97,6 +97,13 @@
             <version>0.4</version>
         </dependency>
 
+<!--it's google package that helps to transform object to json and oposite-->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.10.1</version>
+        </dependency>
+
 
         <!--  My dependencies   -->
 

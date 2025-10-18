@@ -80,31 +80,49 @@ public class DoctorRepositoryImpl implements DoctorRepository {
     }
 
 
-    @Override
-    public Doctor findByEmail(String email) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            TypedQuery<Person> query = em.createQuery(
-                    "SELECT p FROM Person p WHERE p.email = :email", Person.class
-            );
-            query.setParameter("email", email);
-            Person person = query.getSingleResult();
-
-
-            if(person instanceof Doctor) {
-                return (Doctor) person;
-            } else {
-                return null;
-            }
-
-        } catch (NoResultException e) {
-            return null;
-        } catch (RuntimeException e) {
-            throw new DoctorException("Failed to find doctor: " + e);
-        } finally {
-            em.close();
-        }
+//    @Override
+//    public Doctor findByEmail(String email) {
+//        EntityManager em = emf.createEntityManager();
+//        try {
+//            TypedQuery<Person> query = em.createQuery(
+//                    "SELECT p FROM Person p WHERE p.email = :email", Person.class
+//            );
+//            query.setParameter("email", email);
+//            Person person = query.getSingleResult();
+//
+//
+//            if(person instanceof Doctor) {
+//                return (Doctor) person;
+//            } else {
+//                return null;
+//            }
+//
+//        } catch (NoResultException e) {
+//            return null;
+//        } catch (RuntimeException e) {
+//            throw new DoctorException("Failed to find doctor: " + e);
+//        } finally {
+//            em.close();
+//        }
+//    }
+@Override
+public Doctor findByEmail(String email) {
+    EntityManager em = emf.createEntityManager();
+    try {
+        TypedQuery<Doctor> query = em.createQuery(
+                "SELECT d FROM Doctor d WHERE d.email = :email", Doctor.class
+        );
+        query.setParameter("email", email);
+        return query.getSingleResult();
+    } catch (NoResultException e) {
+        return null;
+    } catch (RuntimeException e) {
+        throw new DoctorException("Failed to find doctor: " + e);
+    } finally {
+        em.close();
     }
+}
+
 
 
 

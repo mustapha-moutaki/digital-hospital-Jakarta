@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.mustapha.digitalhospitaljee.Exceptions.DoctorException;
 import org.mustapha.digitalhospitaljee.Exceptions.PatientException;
 import org.mustapha.digitalhospitaljee.Repository.PatientRepository;
+import org.mustapha.digitalhospitaljee.model.Doctor;
 import org.mustapha.digitalhospitaljee.model.Patient;
 import org.mustapha.digitalhospitaljee.model.Person;
 
@@ -87,32 +88,51 @@ public class PatientRepositoryImpl implements PatientRepository {
         }
     }
 
+//    @Override
+//    public Patient findByEmail(String email) {
+//        EntityManager em = emf.createEntityManager();
+//        try {
+//
+//            TypedQuery<Person> query = em.createQuery(
+//                    "SELECT p FROM Person p WHERE p.email = :email", Person.class
+//            );
+//            query.setParameter("email", email);
+//            Person person = query.getSingleResult();
+//
+//
+//            if(person instanceof Patient) {
+//                return (Patient) person;
+//            } else {
+//                return null;
+//            }
+//
+//        } catch (NoResultException e) {
+//            return null;
+//        } catch (RuntimeException e) {
+//            throw new PatientException("Failed to find patient: " + e);
+//        } finally {
+//            em.close();
+//        }
+//    }
+
     @Override
     public Patient findByEmail(String email) {
         EntityManager em = emf.createEntityManager();
         try {
-
-            TypedQuery<Person> query = em.createQuery(
-                    "SELECT p FROM Person p WHERE p.email = :email", Person.class
+            TypedQuery<Patient> query = em.createQuery(
+                    "SELECT p FROM Patient p WHERE p.email = :email", Patient.class
             );
             query.setParameter("email", email);
-            Person person = query.getSingleResult();
-
-
-            if(person instanceof Patient) {
-                return (Patient) person;
-            } else {
-                return null;
-            }
-
+            return query.getSingleResult();
         } catch (NoResultException e) {
             return null;
         } catch (RuntimeException e) {
-            throw new PatientException("Failed to find patient: " + e);
+            throw new DoctorException("Failed to find patient: " + e);
         } finally {
             em.close();
         }
     }
+
 //    public Patient findByEmail(String email) {
 //    EntityManager em = emf.createEntityManager();
 //    try(em){ return em.find(Patient.class, email);

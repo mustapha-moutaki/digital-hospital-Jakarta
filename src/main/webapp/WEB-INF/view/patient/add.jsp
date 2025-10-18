@@ -94,7 +94,7 @@
     <div class="form-container">
         <h2><i class="fa-solid fa-user-plus"></i> Add New Patient</h2>
 
-        <form action="<%= request.getContextPath() %>/patient/add" method="post">
+        <form action="<%= request.getContextPath() %>/patient/" method="post">
             <input type="hidden" name="action" value="addPatient">
 
             <label for="firstName">First Name</label>

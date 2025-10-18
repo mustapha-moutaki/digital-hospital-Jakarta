@@ -28,6 +28,8 @@ public class DepartmentController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
+
+
         switch (action){
             case "add":
                 req.getRequestDispatcher("/WEB-INF/view/department/add.jsp").forward(req, resp);

@@ -2,8 +2,10 @@ package org.mustapha.digitalhospitaljee.Repository.impl;
 
 import jakarta.persistence.*;
 import org.mustapha.digitalhospitaljee.Exceptions.AdminCreationException;
+import org.mustapha.digitalhospitaljee.Exceptions.DoctorException;
 import org.mustapha.digitalhospitaljee.Repository.AdminRepository;
 import org.mustapha.digitalhospitaljee.model.Admin;
+import org.mustapha.digitalhospitaljee.model.Patient;
 import org.mustapha.digitalhospitaljee.model.Person;
 
 import java.util.List;
@@ -75,19 +77,37 @@ public class AdminRepositoryImpl implements AdminRepository {
     }
 
 
+//    @Override
+//        public Admin findByEmail(String email) {
+//        EntityManager em = emf.createEntityManager();
+//        try {
+//            TypedQuery<Admin> query = em.createQuery(
+//                    "SELECT a FROM Admin a WHERE a.email = :email", Admin.class
+//            );
+//            query.setParameter("email", email);
+//            return query.getSingleResult(); // أو getResultList().stream().findFirst().orElse(null)
+//        } catch (NoResultException e) {
+//            return null;
+//        } catch (RuntimeException e) {
+//            throw new AdminCreationException("Failed to find admin " + e);
+//        } finally {
+//            em.close();
+//        }
+//    }
+
     @Override
-        public Admin findByEmail(String email) {
+    public Admin findByEmail(String email) {
         EntityManager em = emf.createEntityManager();
         try {
             TypedQuery<Admin> query = em.createQuery(
                     "SELECT a FROM Admin a WHERE a.email = :email", Admin.class
             );
             query.setParameter("email", email);
-            return query.getSingleResult(); // أو getResultList().stream().findFirst().orElse(null)
+            return query.getSingleResult();
         } catch (NoResultException e) {
             return null;
         } catch (RuntimeException e) {
-            throw new AdminCreationException("Failed to find admin " + e);
+            throw new DoctorException("Failed to find admin: " + e);
         } finally {
             em.close();
         }

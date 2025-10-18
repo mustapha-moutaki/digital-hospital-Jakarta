@@ -100,14 +100,14 @@
         <% for (Consultation cons : allConsultation) { %>
         <%
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy");
-            String formattedDate = cons.getDateTime().format(formatter);
+//            String formattedDate = cons.getDateTime().format(formatter);
         %>
         <tr>
             <td><%= cons.getId() %></td>
             <td><%= cons.getPatient().getId() %></td>
             <td><%= cons.getDoctor().getId()%></td>
             <td><%= cons.getReport() %></td>
-            <td><%= formattedDate %></td>
+<%--            <td><%= formattedDate %></td>--%>
             <td>
                 <form action="${pageContext.request.contextPath}/consultation" method="post">
                     <input type="hidden" name="action" value="updateStatus">

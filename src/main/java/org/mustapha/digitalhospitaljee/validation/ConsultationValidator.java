@@ -10,8 +10,9 @@ public class ConsultationValidator {
             throw new BusinessException("Consultation is null");
         }
 
-        if (consultation.getDateTime() == null) {
-            throw new BusinessException("Date and time of consultation is required");
+
+        if (consultation.getStartTime() == null) {
+            throw new BusinessException("Start time of consultation is required");
         }
 
         if (consultation.getConsultationStatus() == null) {
@@ -22,5 +23,12 @@ public class ConsultationValidator {
             throw new BusinessException("Consultation must be associated with a patient");
         }
 
+        if (consultation.getDoctor() == null) {
+            throw new BusinessException("Consultation must be associated with a doctor");
+        }
+
+        if (consultation.getRoom() == null) {
+            throw new BusinessException("Consultation must be associated with a room");
+        }
     }
 }

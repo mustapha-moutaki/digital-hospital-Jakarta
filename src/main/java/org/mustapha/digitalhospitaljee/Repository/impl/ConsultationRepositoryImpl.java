@@ -4,11 +4,12 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
-import org.mustapha.digitalhospitaljee.Exceptions.ConsultationExceptions;
+import org.mustapha.digitalhospitaljee.Exceptions.ConsultationException;
 import org.mustapha.digitalhospitaljee.Repository.ConsultationRepository;
 import org.mustapha.digitalhospitaljee.model.Consultation;
 import org.mustapha.digitalhospitaljee.model.enums.ConsultationStatus;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class ConsultationRepositoryImpl implements ConsultationRepository {
@@ -20,7 +21,7 @@ public class ConsultationRepositoryImpl implements ConsultationRepository {
     }
 
     @Override
-    public void create(Consultation consultation) throws ConsultationExceptions {
+    public void create(Consultation consultation) throws ConsultationException {
         EntityManager em = emf.createEntityManager();
         try(em){
             EntityTransaction tx = em.getTransaction();
@@ -28,12 +29,12 @@ public class ConsultationRepositoryImpl implements ConsultationRepository {
             em.persist(consultation);
             tx.commit();
         } catch (RuntimeException e) {
-            throw new ConsultationExceptions("Failed to create Consultation "+e);
+            throw new ConsultationException("Failed to create Consultation "+e);
         }
     }
 
     @Override
-    public void update(Consultation consultation) throws ConsultationExceptions{
+    public void update(Consultation consultation) throws ConsultationException {
         EntityManager  em = emf.createEntityManager();
 
         try(em){
@@ -42,12 +43,12 @@ public class ConsultationRepositoryImpl implements ConsultationRepository {
             em.merge(consultation);
             tx.commit();
         } catch (RuntimeException e) {
-            throw new ConsultationExceptions("Failed to update the Consultation "+ e);
+            throw new ConsultationException("Failed to update the Consultation "+ e);
         }
     }
 
     @Override
-    public void delete(Long id) throws ConsultationExceptions{
+    public void delete(Long id) throws ConsultationException {
         EntityManager em = emf.createEntityManager();
         try(em){
             EntityTransaction tx = em.getTransaction();
@@ -57,42 +58,43 @@ public class ConsultationRepositoryImpl implements ConsultationRepository {
                 em.remove(consultation);
 
             }else{
-                throw new ConsultationExceptions("the consultaion is not exist ");
+                throw new ConsultationException("the consultaion is not exist ");
             }
             tx.commit();
         } catch (RuntimeException e) {
-            throw new ConsultationExceptions("Failed to delete Consultation " + e);
+            throw new ConsultationException("Failed to delete Consultation " + e);
         }
     }
 
     @Override
-    public Consultation findConsultation(Long id) throws ConsultationExceptions{
+    public Consultation getConsultationById(Long id) throws ConsultationException {
         EntityManager em = emf.createEntityManager();
         try(em){
-           return em.find(Consultation.class, id);
+            return em.find(Consultation.class, id);
         } catch (RuntimeException e) {
-            throw new ConsultationExceptions("failed to find this consultation "+ e);
+            throw new ConsultationException("failed to find this consultation "+ e);
         }
     }
 
+
     @Override
-    public List<Consultation> consultationList() throws ConsultationExceptions{
+    public List<Consultation> consultationList() throws ConsultationException {
         EntityManager em = emf.createEntityManager();
 
         try(em){
             return em.createQuery("SELECT c FROM Consultation c JOIN FETCH c.doctor d JOIN FETCH c.patient p", Consultation.class).getResultList();
         } catch (RuntimeException e) {
-            throw new ConsultationExceptions("failed to get list of consultations "+e);
+            throw new ConsultationException("failed to get list of consultations "+e);
         }
     }
 
     @Override
-    public boolean changeStatus(Long consultationId, ConsultationStatus newConsultationStatus) throws ConsultationExceptions {
+    public boolean changeStatus(Long consultationId, ConsultationStatus newConsultationStatus) throws ConsultationException {
         if (consultationId == null || consultationId <= 0) {
-            throw new ConsultationExceptions("Invalid consultation ID: " + consultationId);
+            throw new ConsultationException("Invalid consultation ID: " + consultationId);
         }
         if (newConsultationStatus == null) {
-            throw new ConsultationExceptions("New consultation status cannot be null");
+            throw new ConsultationException("New consultation status cannot be null");
         }
 
         EntityManager em = emf.createEntityManager();
@@ -105,7 +107,7 @@ public class ConsultationRepositoryImpl implements ConsultationRepository {
 
             Consultation consultation = em.find(Consultation.class, consultationId);
             if (consultation == null) {
-                throw new ConsultationExceptions("Consultation not found with ID: " + consultationId);
+                throw new ConsultationException("Consultation not found with ID: " + consultationId);
             }
 
             System.out.println("[DEBUG] Current status: " + consultation.getConsultationStatus() +
@@ -125,7 +127,7 @@ public class ConsultationRepositoryImpl implements ConsultationRepository {
                 tx.rollback();
             }
             e.printStackTrace();
-            throw new ConsultationExceptions("Failed to change status for consultation ID " + consultationId + ": " + e.getMessage());
+            throw new ConsultationException("Failed to change status for consultation ID " + consultationId + ": " + e.getMessage());
         } finally {
             if (em.isOpen()) {
                 em.close();
@@ -135,5 +137,11 @@ public class ConsultationRepositoryImpl implements ConsultationRepository {
     }
 
 
+    @Override
+    public boolean canBookRoom(Long roomId, LocalDateTime startTime) throws ConsultationException {
+            return consultationList().stream()
+                    .filter(c -> c.getRoom().getId().equals(roomId))
+                    .noneMatch(c -> c.getStartTime().equals(startTime));
+        }
 
-}
+    }
