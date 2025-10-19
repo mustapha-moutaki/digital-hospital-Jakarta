@@ -607,9 +607,10 @@
                 </a>
             </li>
             <li class="nav-item">
-                <i class="bi bi-building nav-icon"></i>
-                <a href="${pageContext.request.contextPath}/department/?action=list" class="nav-link">departments</a>
 
+                <a href="${pageContext.request.contextPath}/department/?action=list" class="nav-link">
+                    <i class="bi bi-building nav-icon"></i>
+                    <span class="nav-text">departments</span>
                 </a>
             </li>
             <li class="nav-item">

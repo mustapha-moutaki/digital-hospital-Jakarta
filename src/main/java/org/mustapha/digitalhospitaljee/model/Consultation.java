@@ -41,7 +41,9 @@ public class Consultation {
     // Getters and Setters
 
     public Long getId() { return id; }
-
+    public void setId(Long id){
+        this.id = id;
+    }
     public ConsultationStatus getConsultationStatus() { return consultationStatus; }
     public void setConsultationStatus(ConsultationStatus consultationStatus) { this.consultationStatus = consultationStatus; }
 

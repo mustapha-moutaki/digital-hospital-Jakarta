@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -114,7 +115,57 @@ public class ConsultationController extends HttpServlet {
             } catch (Exception e) {
                 throw new ServletException("Failed to delete consultation: " + e.getMessage(), e);
             }
+        }else if ("changeStatus".equalsIgnoreCase(action)) {
+            try {
+                long id = Long.parseLong(req.getParameter("id"));
+
+
+                ConsultationStatus[] statusTypes = ConsultationStatus.values();
+
+
+                req.setAttribute("statusTypes", statusTypes);
+                req.setAttribute("consultationId", id);
+
+                req.getRequestDispatcher("/WEB-INF/view/consultation/changeStatus.jsp").forward(req, resp);
+
+            } catch (Exception e) {
+                throw new ServletException("Failed to load status change page: " + e.getMessage(), e);
+            }
         }
+        else if (action.equalsIgnoreCase("edit")) {
+            try {
+                long id = Long.parseLong(req.getParameter("id"));
+                Consultation consultation = consultationService.findConsultation(id);
+                req.setAttribute("consultation", consultation);
+
+                // Load all related data for dropdowns
+                List<Patient> patients = patientService.getAllPatients()
+                        .stream()
+                        .filter(p -> "Patient".equalsIgnoreCase(p.getRole()))
+                        .toList();
+                List<Doctor> doctors = doctorService.getAllDoctors();
+                List<Department> departments = departmentService.departmentList();
+                List<Room> rooms = roomService.roomList();
+
+                List<String> times = new ArrayList<>();
+                for (int h = 9; h < 17; h++) {
+                    times.add(String.format("%02d:00", h));
+                    times.add(String.format("%02d:30", h));
+                }
+
+                req.setAttribute("patients", patients);
+                req.setAttribute("doctors", doctors);
+                req.setAttribute("departments", departments);
+                req.setAttribute("rooms", rooms);
+                req.setAttribute("times", times);
+
+                req.getRequestDispatcher("/WEB-INF/view/consultation/edit.jsp").forward(req, resp);
+            } catch (Exception e) {
+                throw new ServletException("Failed to load edit consultation page: " + e.getMessage(), e);
+            }
+        }
+
+
 
     }
 
@@ -163,7 +214,67 @@ public class ConsultationController extends HttpServlet {
             } catch (Exception e) {
                 throw new ServletException("Failed to create Consultation", e);
             }
+        } else if ("updateConsultation".equalsIgnoreCase(action)) {
+            try {
+                Long consultationId = Long.parseLong(request.getParameter("id"));
+                Long patientId = Long.parseLong(request.getParameter("patientId"));
+                Long doctorId = Long.parseLong(request.getParameter("doctorId"));
+                Long roomId = Long.parseLong(request.getParameter("roomId"));
+
+                String dateStr = request.getParameter("consultationDate");
+                String timeStr = request.getParameter("startTime");
+                String statusStr = request.getParameter("consultationStatus");
+                String report = request.getParameter("report");
+
+                if(dateStr == null || dateStr.isEmpty() || timeStr == null || timeStr.isEmpty()) {
+                    throw new ServletException("Date and Time must be provided!");
+                }
+
+                LocalDate date = LocalDate.parse(dateStr);   // 2025-10-19
+                LocalTime time = LocalTime.parse(timeStr);   // 09:00
+                LocalDateTime startTime = LocalDateTime.of(date, time);
+
+                Consultation consultation = consultationService.findConsultation(consultationId);
+
+
+                consultation.setPatient(patientService.findById(patientId));
+                consultation.setDoctor(doctorService.findById(doctorId));
+                consultation.setRoom(roomService.getRoomById(roomId));
+                consultation.setStartTime(startTime);
+
+                if(statusStr != null && !statusStr.isEmpty()) {
+                    consultation.setConsultationStatus(ConsultationStatus.valueOf(statusStr));
+                }
+
+                consultation.setReport(report);
+
+                consultationService.update(consultation);
+
+                response.sendRedirect(request.getContextPath() + "/consultations?action=list");
+
+            } catch (Exception e) {
+                throw new ServletException("Failed to update consultation: " + e.getMessage(), e);
+            }
+        } else if ("updateStatusToNew".equalsIgnoreCase(action)) {
+            try {
+                long id = Long.parseLong(request.getParameter("id"));
+                String status = request.getParameter("newStatus");
+
+
+                ConsultationStatus newStatus = ConsultationStatus.valueOf(status.toUpperCase());
+
+
+                consultationService.changeStatus(id, newStatus);
+
+                response.sendRedirect(request.getContextPath() + "/consultations?action=list");
+
+            } catch (Exception e) {
+                throw new ServletException("Failed to update consultation status: " + e.getMessage(), e);
+            }
         }
+
+
+
     }
 
 
