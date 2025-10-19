@@ -96,39 +96,96 @@ The application follows a professional MVC architecture and adheres to object-or
 ### Main Entities
 
 ```
-Person (abstract)
-├── Patient
-│   ├── idPatient
-│   ├── weight
-│   ├── height
-│   └── consultations[]
-│
-└── Doctor
-    ├── idDoctor
-    ├── specialty
-    ├── department
-    └── schedule[]
+Directory structure:
+└── mustapha-moutaki-digital-hospital-jakarta/
+    ├── docker-compose.yml
+    ├── Dockerfile
+    ├── mvnw
+    ├── mvnw.cmd
+    ├── pom.xml
+    ├── watch-build.sh
+    ├── src/
+    │   └── main/
+    │       ├── java/
+    │       │   └── org/
+    │       │       └── mustapha/
+    │       │           └── digitalhospitaljee/
+    │       │               ├── HelloServlet.java
+    │       │               ├── Main.java
+    │       │               ├── Config/
+    │       │               │   └── JPAinitializer.java
+    │       │               ├── controller/
+    │       │               │   ├── DoctorServlet.java
+    │       │               │   └── PatientServlet.java
+    │       │               ├── model/
+    │       │               │   ├── Admin.java
+    │       │               │   ├── Consultation.java
+    │       │               │   ├── Department.java
+    │       │               │   ├── Doctor.java
+    │       │               │   ├── Patient.java
+    │       │               │   ├── Person.java
+    │       │               │   ├── Room.java
+    │       │               │   └── enums/
+    │       │               │       └── ConsultationStatus.java
+    │       │               ├── Repository/
+    │       │               │   ├── AdminRepository.java
+    │       │               │   ├── DoctorRepository.java
+    │       │               │   ├── PatientRepository.java
+    │       │               │   └── impl/
+    │       │               │       ├── AdminRepositoryImpl.java
+    │       │               │       ├── DoctorRepositoryImpl.java
+    │       │               │       └── PatientRepositoryImpl.java
+    │       │               └── service/
+    │       │                   ├── DoctorService.java
+    │       │                   ├── PatientService.java
+    │       │                   └── impl/
+    │       │                       ├── DoctorServiceImpl.java
+    │       │                       └── PatientServiceImpl.java
+    │       ├── resources/
+    │       │   └── META-INF/
+    │       │       └── persistence.xml
+    │       └── webapp/
+    │           ├── index.jsp
+    │           └── WEB-INF/
+    │               ├── web.xml
+    │               └── view/
+    │                   ├── doctor.jsp
+    │                   ├── list.jsp
+    │                   ├── success.jsp
+    │                   ├── admin/
+    │                   │   ├── consultation-supervision.jsp
+    │                   │   ├── department-managment.jsp
+    │                   │   ├── doctor-managment.jsp
+    │                   │   └── salle-menagment.jsp
+    │                   ├── assets/
+    │                   │   ├── components/
+    │                   │   │   ├── footer.jsp
+    │                   │   │   └── header.jsp
+    │                   │   └── dashboards/
+    │                   │       ├── admin-dashboard.jsp
+    │                   │       ├── doctor-dashboard.jsp
+    │                   │       └── patient-dashboard.jsp
+    │                   ├── auth/
+    │                   │   ├── login.jsp
+    │                   │   └── register.jsp
+    │                   ├── doctor/
+    │                   │   ├── add.jsp
+    │                   │   ├── consultation-detail.jsp
+    │                   │   ├── details.jsp
+    │                   │   ├── list.jsp
+    │                   │   ├── planning.jsp
+    │                   │   └── update.jsp
+    │                   └── patient/
+    │                       ├── add.jsp
+    │                       ├── details.jsp
+    │                       ├── list.jsp
+    │                       ├── mes-consultations.jsp
+    │                       ├── reservation-form.jsp
+    │                       └── update.jsp
+    └── .mvn/
+        └── wrapper/
+            └── maven-wrapper.properties
 
-Department
-├── idDepartment
-├── name
-└── doctors[]
-
-Room
-├── idRoom
-├── roomName
-├── capacity
-└── occupiedSlots[]
-
-Consultation
-├── idConsultation
-├── date
-├── time
-├── status (ENUM)
-├── medicalReport
-├── patient
-├── doctor
-└── room
 ```
 
 ### Consultation Statuses
