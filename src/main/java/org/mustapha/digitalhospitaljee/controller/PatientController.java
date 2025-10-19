@@ -107,7 +107,7 @@ public class PatientController extends HttpServlet {
                 patient.setWeight(weight);
 
                 patientService.craete(patient);
-                resp.sendRedirect(req.getContextPath() + "/patient/list");
+                resp.sendRedirect(req.getContextPath() + "/patient/list?action=list");
 
             break;
 

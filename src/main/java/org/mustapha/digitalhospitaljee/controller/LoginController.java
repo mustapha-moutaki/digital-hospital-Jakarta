@@ -65,7 +65,7 @@
                     user = patientService.findByEmail(email);
                 }
 
-                if(user != null && BCrypt.checkpw(password, user.getPassword())){//&& BCrypt.checkpw(password, user.getPassword())--password.equals(user.getPassword())
+                if(user != null && password.equals(user.getPassword())){//&& BCrypt.checkpw(password, user.getPassword())--password.equals(user.getPassword())
 
                     HttpSession session = req.getSession();
                     session.setAttribute("currentUserId", user.getId());

@@ -9,71 +9,78 @@
 </head>
 <body class="bg-light">
 
-<div class="container py-5">
-    <div class="card shadow-sm p-4">
-        <h3 class="mb-4 text-primary">Add New Consultation</h3>
+<jsp:include page="../assets/components/header.jsp" />
+<jsp:include page="../assets/components/sideBar.jsp" />
 
-        <form action="${pageContext.request.contextPath}/consultations" method="post">
-            <input type="hidden" name="action" value="createConsultation"/>
+<div style="margin-left:250px; margin-top:75px; padding:30px;">
+    <div class="container py-5">
+        <div class="card shadow-sm p-4">
+            <h3 class="mb-4 text-primary">Add New Consultation</h3>
 
-            <div class="mb-3">
-                <label class="form-label">Patient</label>
-                <select class="form-select" name="patientId" required>
-                    <option value="">Select Patient</option>
-                    <c:forEach var="p" items="${patients}">
-                        <option value="${p.id}">${p.firstName} ${p.lastname}</option>
-                    </c:forEach>
-                </select>
-            </div>
+            <form action="${pageContext.request.contextPath}/consultations" method="post">
+                <input type="hidden" name="action" value="createConsultation"/>
 
-            <div class="mb-3">
-                <label class="form-label">Doctor</label>
-                <select class="form-select" name="doctorId" id="doctorId" required>
-                    <option value="">Select Doctor</option>
-                    <c:forEach var="d" items="${doctors}">
-                        <option value="${d.id}" data-department="${d.department.id}">
-                                ${d.firstName} ${d.lastname}
-                        </option>
-                    </c:forEach>
-                </select>
-            </div>
+                <div class="mb-3">
+                    <label class="form-label">Patient</label>
+                    <select class="form-select" name="patientId" required>
+                        <option value="" disabled selected>Select Patient</option>
+                        <c:forEach var="p" items="${patients}">
+                            <option value="${p.id}">${p.firstName} ${p.lastname}</option>
+                        </c:forEach>
+                    </select>
+                </div>
 
-            <div class="mb-3">
-                <label class="form-label">Date</label>
-                <input type="date" name="consultationDate" class="form-control"
-                       required min="<%= java.time.LocalDate.now() %>">
-            </div>
+                <div class="mb-3">
+                    <label class="form-label">Doctor</label>
+                    <select class="form-select" name="doctorId" id="doctorId" required>
+                        <option value="" disabled selected>Select Doctor</option>
+                        <c:forEach var="d" items="${doctors}">
+                            <option value="${d.id}" data-department="${d.department.id}">
+                                    ${d.firstName} ${d.lastname}
+                            </option>
+                        </c:forEach>
+                    </select>
+                </div>
 
-            <div class="mb-3">
-                <label class="form-label">Time</label>
-                <select class="form-select" name="startTime" required>
-                    <option value="">Select Time</option>
-                    <c:forEach var="t" items="${times}">
-                        <option value="${t}">${t}</option>
-                    </c:forEach>
-                </select>
-            </div>
+                <div class="mb-3">
+                    <label class="form-label">Date</label>
+                    <input type="date" name="consultationDate" class="form-control"
+                           required min="<%= java.time.LocalDate.now() %>">
+                </div>
 
-            <div class="mb-3">
-                <label class="form-label">Room</label>
-                <select class="form-select" name="roomId" id="roomId" required>
-                    <option value="">Select Room</option>
-                    <c:forEach var="room" items="${rooms}">
-                        <option value="${room.id}" data-department="${room.department != null ? room.department.id : 0}">
-                                ${room.name} -
-                            <c:out value="${room.department != null ? room.department.name : 'No Department'}"/>
-                        </option>
-                    </c:forEach>
-                </select>
-            </div>
+                <div class="mb-3">
+                    <label class="form-label">Time</label>
+                    <select class="form-select" name="startTime" required>
+                        <option value="" disabled selected>Select Time</option>
+                        <c:forEach var="t" items="${times}">
+                            <option value="${t}">${t}</option>
+                        </c:forEach>
+                    </select>
+                </div>
 
-            <div class="d-flex gap-2">
-                <button type="submit" class="btn btn-primary">Save Consultation</button>
-                <a href="${pageContext.request.contextPath}/consultations?action=list" class="btn btn-secondary">Cancel</a>
-            </div>
-        </form>
+                <div class="mb-3">
+                    <label class="form-label">Room</label>
+                    <select class="form-select" name="roomId" id="roomId" required>
+                        <option value="" disabled selected>Select Room</option>
+                        <c:forEach var="room" items="${rooms}">
+                            <option value="${room.id}" data-department="${room.department != null ? room.department.id : 0}">
+                                    ${room.name} -
+                                <c:out value="${room.department != null ? room.department.name : 'No Department'}"/>
+                            </option>
+                        </c:forEach>
+                    </select>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">Save Consultation</button>
+                    <a href="${pageContext.request.contextPath}/consultations?action=list" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
+
+<jsp:include page="../assets/components/footer.jsp" />
 
 <script>
     const doctorSelect = document.getElementById('doctorId');

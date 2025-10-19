@@ -596,20 +596,20 @@
                 <a href="${pageContext.request.contextPath}/doctor/manage?action=list" class="nav-link">
                     <i class="bi bi-person-badge nav-icon"></i>
                     <span class="nav-text">Doctors</span>
-                    <span class="nav-badge">45</span>
+<%--                    <span class="nav-badge">45</span>--%>
                 </a>
             </li>
             <li class="nav-item">
                 <a href="${pageContext.request.contextPath}/patient/list?action=list" class="nav-link">
                     <i class="bi bi-people nav-icon"></i>
                     <span class="nav-text">Patients</span>
-                    <span class="nav-badge">1.2k</span>
+<%--                    <span class="nav-badge">1.2k</span>--%>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="${pageContext.request.contextPath}/consultations?action=list" class="nav-link">Consultations List</a>
                 <i class="bi bi-building nav-icon"></i>
-                    <span class="nav-text">Departments</span>
+                <a href="${pageContext.request.contextPath}/department/?action=list" class="nav-link">departments</a>
+
                 </a>
             </li>
             <li class="nav-item">
@@ -623,7 +623,7 @@
         <div class="nav-section-title">Management</div>
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a href="${pageContext.request.contextPath}/consultation?action=allList" class="nav-link">
+                <a href="${pageContext.request.contextPath}/consultations?action=list" class="nav-link">
                     <i class="bi bi-clipboard2-pulse nav-icon"></i>
                     <span class="nav-text">Consultations</span>
                 </a>
@@ -632,7 +632,14 @@
                 <a href="<%= request.getContextPath() %>/appointments" class="nav-link">
                     <i class="bi bi-calendar-check nav-icon"></i>
                     <span class="nav-text">Appointments</span>
-                    <span class="nav-badge">28</span>
+<%--                    <span class="nav-badge">28</span>--%>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="<%= request.getContextPath() %>/department?action=add" class="nav-link">
+                    <i class="bi bi-calendar-check nav-icon"></i>
+                    <span class="nav-text">manage departments</span>
+<%--                    <span class="nav-badge">28</span>--%>
                 </a>
             </li>
         </ul>
@@ -678,7 +685,7 @@
                 <a href="<%= request.getContextPath() %>/appointments" class="nav-link">
                     <i class="bi bi-calendar-check nav-icon"></i>
                     <span class="nav-text">Appointments</span>
-                    <span class="nav-badge">15</span>
+<%--                    <span class="nav-badge">15</span>--%>
                 </a>
             </li>
         </ul>
@@ -724,7 +731,7 @@
                 <a href="<%= request.getContextPath() %>/appointments/my" class="nav-link">
                     <i class="bi bi-calendar-check nav-icon"></i>
                     <span class="nav-text">My Appointments</span>
-                    <span class="nav-badge">3</span>
+<%--                    <span class="nav-badge">3</span>--%>
                 </a>
             </li>
         </ul>

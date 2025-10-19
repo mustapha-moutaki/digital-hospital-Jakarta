@@ -59,7 +59,7 @@ public class RoomServiceImpl implements RoomService {
     public List<Room> getAvailableRooms(LocalDateTime startTime) throws RoomException {
         List<Room> allRooms = roomList();
         List<Room> bookedRooms = consultationService.consultationList().stream()
-                .filter(c -> c.getStartTime().equals(startTime))
+                .filter(c -> c.getDateTime().equals(startTime))
                 .map(Consultation::getRoom)
                 .toList();
         allRooms.removeAll(bookedRooms);

@@ -11,7 +11,7 @@ public class ConsultationValidator {
         }
 
 
-        if (consultation.getStartTime() == null) {
+        if (consultation.getDateTime() == null) {
             throw new BusinessException("Start time of consultation is required");
         }
 

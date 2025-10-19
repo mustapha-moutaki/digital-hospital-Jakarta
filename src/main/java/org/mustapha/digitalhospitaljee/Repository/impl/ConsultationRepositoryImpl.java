@@ -141,7 +141,7 @@ public class ConsultationRepositoryImpl implements ConsultationRepository {
     public boolean canBookRoom(Long roomId, LocalDateTime startTime) throws ConsultationException {
             return consultationList().stream()
                     .filter(c -> c.getRoom().getId().equals(roomId))
-                    .noneMatch(c -> c.getStartTime().equals(startTime));
+                    .noneMatch(c -> c.getDateTime().equals(startTime));
         }
 
     }

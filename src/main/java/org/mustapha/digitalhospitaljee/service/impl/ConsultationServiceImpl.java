@@ -70,11 +70,11 @@ public class ConsultationServiceImpl implements ConsultationService {
 
         List<Consultation> booked = consultationList().stream()
                 .filter(c -> c.getDoctor().getId().equals(doctorId) &&
-                        c.getStartTime().toLocalDate().equals(date))
+                        c.getDateTime().toLocalDate().equals(date))
                 .toList();
 
         List<String> bookedTimes = booked.stream()
-                .map(c -> c.getStartTime().toLocalTime().toString())
+                .map(c -> c.getDateTime().toLocalTime().toString())
                 .toList();
 
         allTimes.removeAll(bookedTimes);

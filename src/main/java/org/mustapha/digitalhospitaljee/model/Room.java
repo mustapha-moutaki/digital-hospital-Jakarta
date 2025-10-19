@@ -40,8 +40,8 @@ public class Room {
     public boolean checkAvailability(LocalDateTime desiredStartTime){
         LocalDateTime desiredEndTime = desiredStartTime.plusMinutes(30);
         for(Consultation c : consultations){
-            LocalDateTime existingStart = c.getStartTime();
-            LocalDateTime existingEnd = c.getEndTime();
+            LocalDateTime existingStart = c.getDateTime();
+            LocalDateTime existingEnd = c.getStartTime();
             if(desiredStartTime.isBefore(existingEnd) && desiredEndTime.isAfter(existingStart)){
                 return false;
             }

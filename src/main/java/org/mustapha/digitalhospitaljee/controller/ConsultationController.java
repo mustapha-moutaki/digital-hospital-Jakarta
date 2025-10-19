@@ -103,66 +103,70 @@ public class ConsultationController extends HttpServlet {
             } catch (Exception e) {
                 throw new ServletException("Failed to load add consultation page: " + e.getMessage(), e);
             }
+        } else if (action.equalsIgnoreCase("delete")) {
+            try {
+                long id = Long.parseLong(req.getParameter("id"));
+                consultationService.delete(id);
+
+                // Redirect to the list page after deletion
+                resp.sendRedirect(req.getContextPath() + "/consultations?action=list");
+
+            } catch (Exception e) {
+                throw new ServletException("Failed to delete consultation: " + e.getMessage(), e);
+            }
         }
+
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String action = req.getParameter("action");
-        if (action != null && action.equalsIgnoreCase("createConsultation")) {
-            try {
-                Long patientId = Long.parseLong(req.getParameter("patientId"));
-                Long doctorId = Long.parseLong(req.getParameter("doctorId"));
-                Long roomId = Long.parseLong(req.getParameter("roomId"));
-                String dateStr = req.getParameter("consultationDate");
-                String timeStr = req.getParameter("startTime");
+        String action = request.getParameter("action");
 
-                if (dateStr == null || timeStr == null)
-                    throw new ConsultationException("Date or time not selected");
+        if ("createConsultation".equals(action)) {
+
+            try {
+                Long patientId = Long.parseLong(request.getParameter("patientId"));
+                Long doctorId = Long.parseLong(request.getParameter("doctorId"));
+                Long roomId = Long.parseLong(request.getParameter("roomId"));
+
+                String dateStr = request.getParameter("consultationDate");
+                String timeStr = request.getParameter("startTime");
+
+                if(dateStr == null || dateStr.isEmpty() || timeStr == null || timeStr.isEmpty()) {
+                    throw new ServletException("Date and Time must be provided!");
+                }
 
                 LocalDate date = LocalDate.parse(dateStr);
                 LocalTime time = LocalTime.parse(timeStr);
-                LocalDateTime startDateTime = LocalDateTime.of(date, time);
+                LocalDateTime startTime = LocalDateTime.of(date, time);
 
                 Patient patient = patientService.findById(patientId);
                 Doctor doctor = doctorService.findById(doctorId);
                 Room room = roomService.getRoomById(roomId);
 
-                boolean isBooked = consultationService.consultationList().stream()
-                        .anyMatch(c ->
-                                c.getDoctor().getId().equals(doctorId) &&
-                                        c.getStartTime().equals(startDateTime)
-                        );
-
-                if (isBooked) {
-                    throw new ConsultationException("This doctor is already booked at the selected time.");
-                }
-
                 Consultation consultation = new Consultation();
                 consultation.setConsultationStatus(ConsultationStatus.PENDING);
-                consultation.setStartTime(startDateTime);
+                consultation.setDateTime(LocalDateTime.now());// ceated time
+                consultation.setStartTime(startTime);      // consulation actual time
                 consultation.setPatient(patient);
                 consultation.setDoctor(doctor);
                 consultation.setRoom(room);
                 consultation.setReport("N/A");
 
-                consultationService.create(consultation);
-                resp.sendRedirect(req.getContextPath() + "/consultations?action=list");
 
-            } catch (NumberFormatException | DateTimeParseException e) {
-                LOGGER.log(Level.SEVERE, "Invalid input: " + e.getMessage(), e);
-                throw new ServletException("Invalid date or ID format.", e);
-            } catch (ConsultationException e) {
-                LOGGER.log(Level.WARNING, "Consultation error: " + e.getMessage(), e);
-                req.setAttribute("error", e.getMessage());
-                req.getRequestDispatcher("/WEB-INF/view/consultation/add.jsp").forward(req, resp);
+                consultationService.create(consultation);
+
+                response.sendRedirect(request.getContextPath() + "/consultations?action=list");
+
             } catch (Exception e) {
-                LOGGER.log(Level.SEVERE, "Error creating consultation: " + e.getMessage(), e);
-                throw new ServletException("Error while creating consultation.", e);
+                throw new ServletException("Failed to create Consultation", e);
             }
         }
     }
+
+
+
 
 }
