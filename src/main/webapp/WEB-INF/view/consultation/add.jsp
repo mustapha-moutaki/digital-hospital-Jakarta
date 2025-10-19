@@ -11,14 +11,15 @@
 
 <div class="container py-5">
     <div class="card shadow-sm p-4">
-        <h3 class="mb-4 text-primary">Add Consultation</h3>
+        <h3 class="mb-4 text-primary">Add New Consultation</h3>
 
         <form action="${pageContext.request.contextPath}/consultations" method="post">
             <input type="hidden" name="action" value="createConsultation"/>
 
             <div class="mb-3">
-                <label for="patientId" class="form-label">Patient</label>
-                <select class="form-select" id="patientId" name="patientId" required>
+                <label class="form-label">Patient</label>
+                <select class="form-select" name="patientId" required>
+                    <option value="">Select Patient</option>
                     <c:forEach var="p" items="${patients}">
                         <option value="${p.id}">${p.firstName} ${p.lastname}</option>
                     </c:forEach>
@@ -26,82 +27,67 @@
             </div>
 
             <div class="mb-3">
-                <label for="doctorId" class="form-label">Doctor</label>
-                <select class="form-select" id="doctorId" name="doctorId" required>
+                <label class="form-label">Doctor</label>
+                <select class="form-select" name="doctorId" id="doctorId" required>
+                    <option value="">Select Doctor</option>
                     <c:forEach var="d" items="${doctors}">
-                        <option value="${d.id}">${d.firstName} ${d.lastname}</option>
+                        <option value="${d.id}" data-department="${d.department.id}">
+                                ${d.firstName} ${d.lastname}
+                        </option>
                     </c:forEach>
                 </select>
             </div>
 
             <div class="mb-3">
-                <label for="consultationDate" class="form-label">Select Day</label>
-                <input type="date" id="consultationDate" name="consultationDate" class="form-control" required>
+                <label class="form-label">Date</label>
+                <input type="date" name="consultationDate" class="form-control"
+                       required min="<%= java.time.LocalDate.now() %>">
             </div>
 
             <div class="mb-3">
-                <label for="consultationTime" class="form-label">Select Time</label>
-                <select id="consultationTime" name="startTime" class="form-select" required>
+                <label class="form-label">Time</label>
+                <select class="form-select" name="startTime" required>
                     <option value="">Select Time</option>
+                    <c:forEach var="t" items="${times}">
+                        <option value="${t}">${t}</option>
+                    </c:forEach>
                 </select>
             </div>
 
             <div class="mb-3">
-                <label for="roomId" class="form-label">Room</label>
-                <select class="form-select" id="roomId" name="roomId" required>
+                <label class="form-label">Room</label>
+                <select class="form-select" name="roomId" id="roomId" required>
                     <option value="">Select Room</option>
+                    <c:forEach var="room" items="${rooms}">
+                        <option value="${room.id}" data-department="${room.department != null ? room.department.id : 0}">
+                                ${room.name} -
+                            <c:out value="${room.department != null ? room.department.name : 'No Department'}"/>
+                        </option>
+                    </c:forEach>
                 </select>
             </div>
 
-            <button type="submit" class="btn btn-primary">Save Consultation</button>
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">Save Consultation</button>
+                <a href="${pageContext.request.contextPath}/consultations?action=list" class="btn btn-secondary">Cancel</a>
+            </div>
         </form>
     </div>
 </div>
 
 <script>
-    const contextPath = "${pageContext.request.contextPath}";
+    const doctorSelect = document.getElementById('doctorId');
+    const roomSelect = document.getElementById('roomId');
 
-    document.getElementById("doctorId").addEventListener("change", function() {
-        document.getElementById("consultationDate").dispatchEvent(new Event('change'));
-    });
-
-    document.getElementById("consultationDate").addEventListener("change", function() {
-        const date = this.value;
-        const doctorId = document.getElementById("doctorId").value;
-        if(!date || !doctorId) return;
-
-        fetch(`${contextPath}/consultations?action=availableTimes&doctorId=${doctorId}&date=${date}`)
-            .then(res => res.json())
-            .then(times => {
-                const timeSelect = document.getElementById("consultationTime");
-                timeSelect.innerHTML = '<option value="">Select Time</option>';
-                times.forEach(t => {
-                    const option = document.createElement("option");
-                    option.value = t;
-                    option.textContent = t;
-                    timeSelect.appendChild(option);
-                });
-            });
-    });
-
-    document.getElementById("consultationTime").addEventListener("change", function() {
-        const date = document.getElementById("consultationDate").value;
-        const time = this.value;
-        if(!date || !time) return;
-
-        fetch(`${contextPath}/consultations?action=availableRooms&date=${date}&time=${time}`)
-            .then(res => res.json())
-            .then(rooms => {
-                const roomSelect = document.getElementById("roomId");
-                roomSelect.innerHTML = '<option value="">Select Room</option>';
-                rooms.forEach(r => {
-                    const option = document.createElement("option");
-                    option.value = r.id;
-                    option.textContent = r.name;
-                    roomSelect.appendChild(option);
-                });
-            });
+    doctorSelect.addEventListener('change', () => {
+        const selectedDept = doctorSelect.selectedOptions[0]?.dataset.department;
+        Array.from(roomSelect.options).forEach(opt => {
+            if (!opt.value) return;
+            opt.hidden = opt.dataset.department !== selectedDept;
+        });
+        roomSelect.value = "";
     });
 </script>
+
 </body>
 </html>
