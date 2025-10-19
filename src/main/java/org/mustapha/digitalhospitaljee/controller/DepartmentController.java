@@ -6,11 +6,18 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.mustapha.digitalhospitaljee.Repository.DepartmentRepository;
+import org.mustapha.digitalhospitaljee.Repository.DoctorRepository;
 import org.mustapha.digitalhospitaljee.Repository.impl.DepartmentRepositoryImpl;
+import org.mustapha.digitalhospitaljee.Repository.impl.DoctorRepositoryImpl;
 import org.mustapha.digitalhospitaljee.model.Department;
+import org.mustapha.digitalhospitaljee.model.Doctor;
+import org.mustapha.digitalhospitaljee.model.Person;
 import org.mustapha.digitalhospitaljee.service.DepartmentService;
+import org.mustapha.digitalhospitaljee.service.DoctorService;
 import org.mustapha.digitalhospitaljee.service.impl.DepartmentServiecImpl;
+import org.mustapha.digitalhospitaljee.service.impl.DoctorServiceImpl;
 
 import java.io.IOException;
 import java.util.List;
@@ -19,10 +26,14 @@ import java.util.List;
 public class DepartmentController extends HttpServlet {
 
     private DepartmentService departmentService;
+    private DoctorService doctorService;
     @Override
     public void init(ServletConfig config) throws ServletException {
         DepartmentRepository depa = new DepartmentRepositoryImpl();
         departmentService = new DepartmentServiecImpl(depa);
+
+        DoctorRepository docrepo = new DoctorRepositoryImpl();
+        doctorService = new DoctorServiceImpl(docrepo);
     }
 
     @Override
@@ -50,6 +61,37 @@ public class DepartmentController extends HttpServlet {
                 req.setAttribute("department", department);
                 req.getRequestDispatcher("/WEB-INF/view/department/update.jsp").forward(req, resp);
                 break;
+            case "myDepartment":
+                try {
+                    HttpSession session = req.getSession(false);
+
+
+                    if (session == null || session.getAttribute("currentUserId") == null) {
+                        resp.sendRedirect(req.getContextPath() + "/login.jsp");
+                        return;
+                    }
+
+
+                    Long currentUserId = (Long) session.getAttribute("currentUserId");
+
+
+                    Doctor currentUser = doctorService.findById(currentUserId);
+
+
+                    String doctorDepartment = currentUser.getDepartment().getName();
+
+
+                    req.setAttribute("myDepartment", doctorDepartment);
+
+
+                    req.getRequestDispatcher("/WEB-INF/view/department/myDepartment.jsp").forward(req, resp);
+
+                } catch (Exception e) {
+                    throw new ServletException("Failed to load doctor's department: " + e.getMessage(), e);
+                }
+                break;
+
+
             default:
                 req.getRequestDispatcher("/WEB-INF/view/assets/dashboards/admin-dashboard.jsp").forward(req, resp);
         }

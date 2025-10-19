@@ -694,7 +694,7 @@
         <div class="nav-section-title">Information</div>
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a href="<%= request.getContextPath() %>/departments" class="nav-link">
+                <a href="<%= request.getContextPath() %>/department?action=myDepartment" class="nav-link">
                     <i class="bi bi-building nav-icon"></i>
                     <span class="nav-text">My Department</span>
                 </a>
