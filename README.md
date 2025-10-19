@@ -1,151 +1,257 @@
-Clinique Digitale - Gestion des Consultations
-Contexte du projet
+# 🏥 Digital Clinic - Consultation Management System
 
-L’organisation souhaite digitaliser la gestion des activités d’une clinique privée. L’objectif est de fournir aux patients, aux docteurs et à l’administration un outil fiable, simple d’utilisation et sécurisé pour gérer les consultations, les plannings et les dossiers médicaux, tout en assurant une supervision complète des activités et des ressources de la clinique.
+## 📋 Project Description
 
-Vous êtes développeur Java EE chargé de concevoir et développer une application web JEE respectant les bonnes pratiques de programmation orientée objet et une architecture professionnelle en couches (MVC), permettant l’automatisation des processus métier et une gestion centralisée des données.
+**Digital Clinic** is a Java EE web application for complete digitalization of private clinic management. It provides a centralized platform to manage consultations, medical schedules, patient records, and clinic resource optimization.
+
+The application follows a professional MVC architecture and adheres to object-oriented programming best practices.
+
+---
+
+## 🎯 Objectives
+
+- Automate appointment booking and consultation management
+- Optimize room occupancy with 30-minute time slots
+- Centralize patient medical records
+- Facilitate communication between patients, doctors, and administration
+- Supervise activities and generate global statistics
+
+---
+
+## 👥 System Actors
+
+### 👨‍⚕️ Patients
+- Account creation and management
+- View list of available doctors by department
+- Book, modify, and cancel appointments
+- Access personal medical history
+
+### 🩺 Doctors
+- View personal schedule
+- Approve or decline appointment requests
+- Conduct consultations with medical report entry
+- Access medical history of followed patients
+- Manage consultation statuses
+
+### 🔧 Administration
+- Manage departments (CRUD operations)
+- Manage doctors and their department assignments
+- Manage rooms and optimize occupancy
+- Supervise all consultations globally
+- Generate statistics and reports
+
+---
+
+## ✨ Key Features
+
+### Consultation Management
+- ✅ Booking with automatic time slot blocking (30 min)
+- ✅ Approval/Rejection by doctor
+- ✅ Status tracking: RESERVED → CONFIRMED → COMPLETED or CANCELLED
+- ✅ Medical report (diagnosis, treatment)
+- ✅ Complete accessible history
+
+### Room Management
+- ✅ Automatic assignment based on availability
+- ✅ 30-minute time slots
+- ✅ Real-time availability verification
+- ✅ One consultation per time slot
+
+### Department Management
+- ✅ Organization by specialties (cardiology, dermatology, etc.)
+- ✅ Doctor assignment to departments
+- ✅ View doctors by department
+
+---
+
+## 🏗️ Technical Architecture
+
+### Technology Stack
+
+**Backend:**
+- ☕ Java EE / Jakarta EE
+- 🔄 Multi-layer MVC Architecture (Repository → Service → Controller → View)
+- 🗄️ JPA/Hibernate for persistence
+- 🐬 MySQL or PostgreSQL
+- 📅 Java Time API for date/time management
+- 🛡️ Servlet Filters for security
+
+**Frontend:**
+- 📄 JSP (Java Server Pages)
+- 🏷️ JSTL (JSP Standard Tag Library)
+- 🎨 CSS / Bootstrap / Tailwind
+- ⚡ JavaScript (client-side validation)
+- 🔐 Expression Language (EL) for data access
+
+**Session Management:**
+- HttpSession for authentication
+- User type storage (PATIENT, DOCTOR, ADMIN)
+- Role-based access control
+- Security filters for protected pages
+
+---
+
+## 📊 Data Model
+
+### Main Entities
+
+```
+Person (abstract)
+├── Patient
+│   ├── idPatient
+│   ├── weight
+│   ├── height
+│   └── consultations[]
+│
+└── Doctor
+    ├── idDoctor
+    ├── specialty
+    ├── department
+    └── schedule[]
+
+Department
+├── idDepartment
+├── name
+└── doctors[]
+
+Room
+├── idRoom
+├── roomName
+├── capacity
+└── occupiedSlots[]
+
+Consultation
+├── idConsultation
+├── date
+├── time
+├── status (ENUM)
+├── medicalReport
+├── patient
+├── doctor
+└── room
+```
+
+### Consultation Statuses
+- 🟡 **RESERVED** : Initial booking by patient
+- 🟢 **CONFIRMED** : Validated by doctor
+- 🔴 **CANCELLED** : Cancelled by patient or doctor
+- ✅ **COMPLETED** : Consultation performed with report
+
+---
+
+## 📝 Business Rules
+
+1. ✔️ A patient can have multiple consultations, but only one reservation per time slot
+2. ✔️ A doctor belongs to one department but can handle multiple consultations
+3. ✔️ A consultation follows the cycle: RESERVED → CONFIRMED → COMPLETED or CANCELLED
+4. ✔️ A room accommodates maximum one consultation per 30-minute slot
+5. ✔️ Past consultations remain in history
+6. ✔️ Automatic availability verification before booking
+
+---
+
+## 🚀 Installation and Configuration
+
+### Prerequisites
+- ☕ JDK 11 or higher
+- 🐬 MySQL 8.0+ or PostgreSQL 12+
+- 🦊 Apache Tomcat 9+ or Jakarta EE compatible server
+- 🔧 Maven 3.6+
+
+### Installation Steps
+
+1. **Clone the repository**
+```bash
+git clone https://github.com/your-repo/digital-clinic.git
+cd digital-clinic
+```
+
+2. **Configure the database**
+```sql
+CREATE DATABASE clinic_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
+3. **Configure persistence.xml**
+```xml
+<!-- Modify connection parameters in src/main/resources/META-INF/persistence.xml -->
+<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/clinic_db"/>
+<property name="javax.persistence.jdbc.user" value="your_user"/>
+<property name="javax.persistence.jdbc.password" value="your_password"/>
+```
+
+4. **Compile the project**
+```bash
+mvn clean install
+```
+
+5. **Deploy to Tomcat**
+```bash
+# Copy the generated WAR file to Tomcat's webapps folder
+cp target/digital-clinic.war $TOMCAT_HOME/webapps/
+```
+
+6. **Start the application**
+```bash
+# Start Tomcat
+$TOMCAT_HOME/bin/startup.sh
+```
+
+7. **Access the application**
+```
+http://localhost:8080/digital-clinic
+```
+
+---
+
+## 🧪 User Stories
+
+### 👨‍⚕️ Patients
+- ✅ As a patient, I want to book an appointment with a doctor
+- ✅ As a patient, I want to cancel or modify my reservation
+- ✅ As a patient, I want to view my consultation history
+
+### 🩺 Doctors
+- ✅ As a doctor, I want to view my schedule
+- ✅ As a doctor, I want to approve or decline a reservation
+- ✅ As a doctor, I want to enter a consultation report
+
+### 🔧 Admin
+- ✅ As an admin, I want to manage departments and doctors
+- ✅ As an admin, I want to manage rooms to optimize occupancy
+- ✅ As an admin, I want to supervise all consultations
+
+---
+
+## 🔒 Security
+
+- 🔐 HTTP session-based authentication
+- 🛡️ Security filters to protect sensitive pages
+- 👤 Role management (PATIENT, DOCTOR, ADMIN)
+- 🚪 Automatic logout (session.invalidate())
+- ✔️ Server-side and client-side data validation
+
+---
+
+## 📈 Statistics and Reports
+
+The application generates:
+- 📊 Total number of patients
+- 📊 Number of consultations per period
+- 📊 Room occupancy rate
+- 📊 Statistics by department
+- 📊 Doctor performance metrics
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! To contribute:
+
+1. Fork the project
+2. Create a branch (`git checkout -b feature/enhancement`)
+3. Commit your changes (`git commit -m 'Add new feature'`)
+4. Push to the branch (`git push origin feature/enhancement`)
+5. Open a Pull Request
+
+---
 
-Objectifs / Fonctionnalités principales
-Pour les patients
-
-Créer et gérer leur compte patient.
-
-Consulter la liste des docteurs disponibles par département (ex. cardiologie, dermatologie…).
-
-Réserver un rendez-vous (consultation) avec un docteur :
-
-Saisie : date, heure souhaitée, motif de consultation.
-
-Le système crée la consultation avec le statut "Réservée" et bloque automatiquement le créneau de 30 minutes dans la salle correspondante.
-
-Annuler ou modifier une réservation si nécessaire.
-
-Consulter l'historique de leurs consultations et diagnostics.
-
-Pour les docteurs
-
-Consulter leur planning de consultations (réservations).
-
-Valider ou refuser une réservation faite par un patient.
-
-Réaliser une consultation : saisir le compte rendu médical (diagnostic, traitement).
-
-Mettre à jour l'état d'une consultation (Réservée, Validée, Annulée, Terminée).
-
-Accéder à l'historique médical des patients suivis.
-
-Pour l'administration
-
-Gérer les départements (ajout, modification, suppression).
-
-Gérer les docteurs et leur rattachement aux départements.
-
-Gérer les salles et optimiser l'occupation par créneaux :
-
-Chaque salle peut accueillir une seule consultation par créneau de 30 minutes.
-
-Vérification automatique de la disponibilité selon la date et l'heure souhaitée.
-
-Superviser toutes les réservations et consultations.
-
-Générer des statistiques globales : nombre de patients, consultations, taux d'occupation des salles…
-
-Règles de gestion
-
-Un patient peut avoir plusieurs consultations, mais une seule réservation par créneau.
-
-Un docteur appartient à un seul département mais peut avoir plusieurs consultations.
-
-Une consultation commence par une réservation (Réservée), qui doit être validée par le docteur (Validée), puis effectuée (Terminée) ou annulée (Annulée).
-
-Une salle peut accueillir une seule consultation par créneau de 30 minutes.
-
-Les consultations passées restent accessibles dans l'historique.
-
-Modélisation des entités
-
-Personne (abstraite) : nom, prénom, email, motDePasse.
-
-Patient : idPatient, poids, taille, consultations.
-
-Docteur : idDocteur, spécialité, département, planning (liste de consultations).
-
-Département : idDepartement, nom, docteurs.
-
-Salle : idSalle, nomSalle, capacité, créneaux occupés (liste des LocalDateTime correspondant aux réservations de 30 minutes).
-
-Consultation : idConsultation, date, heure, statut (Enum : RESERVEE, VALIDEE, ANNULEE, TERMINEE), compteRendu, patient (association), docteur (association), salle (association).
-
-Architecture technique et technologies
-Backend
-
-Architecture MVC (multi-couches) : Repository / Service / Controller / Vue.
-
-Base de données relationnelle : MySQL ou PostgreSQL.
-
-JPA/Hibernate pour la persistance des entités.
-
-Java EE / Jakarta EE (Servlets, JSP).
-
-Java Time API pour la gestion des dates et horaires des consultations.
-
-Gestion des exceptions : réservation en double, salle non disponible, patient/docteur introuvable.
-
-Frontend
-
-JSP pour les vues dynamiques.
-
-JSTL pour la logique de présentation :
-
-<c:forEach> pour l'affichage de listes (docteurs, consultations, départements).
-
-<c:if> et <c:choose> pour les conditions d'affichage.
-
-<fmt:formatDate> pour le formatage des dates.
-
-CSS / Bootstrap / Tailwind pour le style et la responsivité.
-
-JavaScript (optionnel) pour la validation côté client et l'amélioration UX.
-
-Gestion des Sessions (HttpSession)
-
-session.setAttribute("userConnecte", user) : stocker l'utilisateur lors de la connexion.
-
-session.getAttribute("userConnecte") : récupérer l'utilisateur connecté.
-
-${sessionScope.userConnecte} : accès aux données de session dans les JSP avec EL.
-
-Stockage du type d'utilisateur (PATIENT, DOCTEUR, ADMIN) pour la gestion des droits d'accès.
-
-Filtres (Servlet Filters) pour la sécurité :
-
-Rediriger vers la page de login si session.getAttribute("userConnecte") == null.
-
-Contrôler les droits d'accès selon le rôle.
-
-Déconnexion : session.invalidate() pour détruire la session.
-
-User Stories
-Patients
-
-En tant que patient, je veux réserver un rendez-vous avec un docteur afin de consulter.
-
-En tant que patient, je veux annuler ou modifier ma réservation.
-
-En tant que patient, je veux consulter l'historique de mes consultations.
-
-Docteurs
-
-En tant que docteur, je veux consulter mon planning.
-
-En tant que docteur, je veux valider ou refuser une réservation.
-
-En tant que docteur, je veux saisir le compte rendu d'une consultation.
-
-Admin
-
-En tant qu'admin, je veux gérer les départements et docteurs.
-
-En tant qu'admin, je veux gérer les salles pour optimiser l'occupation par créneaux de 30 minutes.
-
-En tant qu'admin, je veux superviser toutes les consultations.
